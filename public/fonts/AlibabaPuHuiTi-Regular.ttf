@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Error>
+  <Code>AccessDenied</Code>
+  <Message>You are denied by bucket referer policy.</Message>
+  <RequestId>679062481E8945393513F108</RequestId>
+  <HostId>puhuiti.oss-cn-hangzhou.aliyuncs.com</HostId>
+  <BucketName>puhuiti</BucketName>
+  <EC>0003-00000501</EC>
+  <RecommendDoc>https://api.aliyun.com/troubleshoot?q=0003-00000501</RecommendDoc>
+</Error>
