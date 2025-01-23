@@ -14,25 +14,25 @@ import { useResumeStore } from '../store/resumeStore'
 
 interface ResumeForm {
   name: string
-  title: string
+  jobTitle: string
   email: string
   phone: string
-  summary: string
-  education: string
-  experience: string
-  skills: string
+  location: string
+  website?: string
+  github?: string
+  blog?: string
 }
 
 export function ResumeForm() {
   const toast = useToast()
-  const updateResume = useResumeStore((state) => state.updateResume)
+  const updateBasicInfo = useResumeStore((state) => state.updateBasicInfo)
   const resume = useResumeStore((state) => state.resume)
   const { register, handleSubmit } = useForm<ResumeForm>({
-    defaultValues: resume
+    defaultValues: resume.basicInfo
   })
 
   const onSubmit = (data: ResumeForm) => {
-    updateResume(data)
+    updateBasicInfo(data)
     toast({
       title: '简历已保存',
       status: 'success',
@@ -53,8 +53,8 @@ export function ResumeForm() {
           </FormControl>
           <FormControl>
             <FormLabel>职位</FormLabel>
-            <Input {...register('title')} onChange={(e) => {
-              register('title').onChange(e)
+            <Input {...register('jobTitle')} onChange={(e) => {
+              register('jobTitle').onChange(e)
               handleSubmit(onSubmit)()
             }} />
           </FormControl>
@@ -78,33 +78,33 @@ export function ResumeForm() {
         </Grid>
 
         <FormControl>
-          <FormLabel>个人简介</FormLabel>
-          <Textarea {...register('summary')} rows={3} onChange={(e) => {
-            register('summary').onChange(e)
+          <FormLabel>位置</FormLabel>
+          <Textarea {...register('location')} rows={3} onChange={(e) => {
+            register('location').onChange(e)
             handleSubmit(onSubmit)()
           }} />
         </FormControl>
 
         <FormControl>
-          <FormLabel>教育经历</FormLabel>
-          <Textarea {...register('education')} rows={4} onChange={(e) => {
-            register('education').onChange(e)
+          <FormLabel>网站</FormLabel>
+          <Textarea {...register('website')} rows={3} onChange={(e) => {
+            register('website').onChange(e)
             handleSubmit(onSubmit)()
           }} />
         </FormControl>
 
         <FormControl>
-          <FormLabel>工作经验</FormLabel>
-          <Textarea {...register('experience')} rows={6} onChange={(e) => {
-            register('experience').onChange(e)
+          <FormLabel>GitHub</FormLabel>
+          <Textarea {...register('github')} rows={3} onChange={(e) => {
+            register('github').onChange(e)
             handleSubmit(onSubmit)()
           }} />
         </FormControl>
 
         <FormControl>
-          <FormLabel>技能特长</FormLabel>
-          <Textarea {...register('skills')} rows={4} onChange={(e) => {
-            register('skills').onChange(e)
+          <FormLabel>博客</FormLabel>
+          <Textarea {...register('blog')} rows={3} onChange={(e) => {
+            register('blog').onChange(e)
             handleSubmit(onSubmit)()
           }} />
         </FormControl>

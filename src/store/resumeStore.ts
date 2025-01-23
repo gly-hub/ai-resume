@@ -21,6 +21,7 @@ interface ResumeStore {
   updateSectionOrder: (sections: Resume['sections']) => void
   updateTemplate: (template: TemplateType, config: TemplateConfig) => void
   loadSample: () => void
+  updateResume: (resume: Partial<Resume>) => void
 }
 
 const initialResume: Resume = {
@@ -152,88 +153,9 @@ export const useResumeStore = create<ResumeStore>((set) => ({
         templateConfig: config
       }
     })),
-  loadSample: () =>
+  updateResume: (resumeData) =>
     set((state) => ({
-      resume: {
-        ...state.resume,
-        basicInfo: {
-          name: '张三',
-          jobTitle: '高级前端工程师',
-          email: 'zhangsan@example.com',
-          phone: '13800138000',
-          location: '上海',
-          website: 'https://zhangsan.dev',
-          github: 'https://github.com/zhangsan',
-          blog: 'https://zhangsan.dev/blog'
-        },
-        education: [
-          {
-            id: '1',
-            school: '上海交通大学',
-            degree: '硕士',
-            major: '计算机科学与技术',
-            startDate: '2018-09',
-            endDate: '2021-06',
-            gpa: '3.8',
-            courses: ['计算机网络', '操作系统', '数据库系统', '分布式系统'],
-            awards: ['优秀毕业生', '一等奖学金']
-          }
-        ],
-        experience: [
-          {
-            id: '1',
-            company: '字节跳动',
-            position: '高级前端工程师',
-            startDate: '2021-07',
-            endDate: '至今',
-            description: [
-              '负责抖音电商核心业务的前端开发工作',
-              '优化前端性能，提升页面加载速度和用户体验',
-              '带领团队完成技术架构升级，提升开发效率'
-            ],
-            technologies: ['React', 'TypeScript', 'Next.js', 'Node.js']
-          }
-        ],
-        projects: [
-          {
-            id: '1',
-            name: '抖音电商直播间',
-            role: '前端负责人',
-            startDate: '2022-01',
-            endDate: '2022-12',
-            description: ['开发抖音电商直播间的前端系统，支持百万级并发访问'],
-            highlights: [
-              '使用 React 和 TypeScript 构建高性能的直播间前端系统',
-              '实现了弹幕、商品展示、支付等核心功能',
-              '优化直播间性能，提升用户体验'
-            ],
-            technologies: ['React', 'TypeScript', 'WebRTC', 'WebSocket']
-          }
-        ],
-        skills: [
-          {
-            id: '1',
-            category: '编程语言',
-            items: ['JavaScript', 'TypeScript', 'Python', 'Java']
-          },
-          {
-            id: '2',
-            category: '前端框架',
-            items: ['React', 'Vue', 'Next.js', 'Nuxt.js']
-          },
-          {
-            id: '3',
-            category: '开发工具',
-            items: ['Git', 'Docker', 'Webpack', 'Vite']
-          }
-        ],
-        additional: {
-          languages: ['英语（流利）', '日语（N2）'],
-          certifications: ['AWS Certified Developer', 'Google Cloud Professional'],
-          talks: ['2023 前端技术大会分享：大规模前端应用架构实践'],
-          publications: ['《深入浅出 React 技术栈》'],
-          openSource: ['React Core Team Contributor', 'Next.js Contributor']
-        }
-      }
-    }))
+      resume: { ...state.resume, ...resumeData }
+    })),
+  loadSample: () => set({ resume: sampleResume })
 })) 

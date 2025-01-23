@@ -74,8 +74,8 @@ export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
 
   return (
     <VStack spacing={spacing.section} align="stretch" {...getContentStyle()}>
-      <Box className="page-break-inside-avoid" bg="white">
-        <HStack spacing={4} align="flex-start" {...getHeaderStyle()}>
+      <Box className="page-break-inside-avoid" bg="white" mb={4}>
+        <HStack spacing={6} align="flex-start" {...getHeaderStyle()}>
           {resume.basicInfo.avatar && (
             <Image
               src={resume.basicInfo.avatar}
@@ -86,22 +86,23 @@ export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
               {...getAvatarStyle()}
             />
           )}
-          <VStack align={layout.headerStyle === 'centered' ? 'center' : 'stretch'} flex={1} spacing={2}>
+          <VStack align={layout.headerStyle === 'centered' ? 'center' : 'flex-start'} flex={1} spacing={3}>
             <Heading 
-              size="lg" 
+              size="xl" 
               color={colors.primary}
               fontFamily={fonts.heading}
+              mb={1}
             >
               {resume.basicInfo.name}
             </Heading>
             <HStack spacing={4} wrap="wrap" justify={layout.headerStyle === 'centered' ? 'center' : 'flex-start'}>
-              <Text color={colors.text} fontFamily={fonts.body}>
+              <Text color={colors.text} fontFamily={fonts.body} fontSize="lg">
                 {resume.basicInfo.jobTitle}
               </Text>
               {resume.basicInfo.location && (
                 <>
                   <Text color={colors.secondary}>·</Text>
-                  <Text color={colors.text} fontFamily={fonts.body}>
+                  <Text color={colors.text} fontFamily={fonts.body} fontSize="lg">
                     {resume.basicInfo.location}
                   </Text>
                 </>
@@ -120,7 +121,9 @@ export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
                 </>
               )}
             </HStack>
-            {renderLinks(resume)}
+            <VStack spacing={1} align={layout.headerStyle === 'centered' ? 'center' : 'flex-start'}>
+              {renderLinks(resume)}
+            </VStack>
           </VStack>
         </HStack>
       </Box>
@@ -131,7 +134,7 @@ export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
         .map(section => {
           const sectionContent = renderSection(section, props)
           return sectionContent ? (
-            <Box key={section.id} className="page-break-inside-avoid" {...getSectionStyle()}>
+            <Box key={section.id} className="page-break-inside-avoid" {...getSectionStyle()} mb={4}>
               {sectionContent}
             </Box>
           ) : null

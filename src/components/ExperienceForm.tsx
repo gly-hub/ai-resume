@@ -13,7 +13,6 @@ import {
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { useResumeStore } from '../store/resumeStore'
 import { v4 as uuidv4 } from 'uuid'
-import { WorkExperience } from '../types'
 
 export const ExperienceForm = () => {
   const experience = useResumeStore((state) => state.resume.experience)

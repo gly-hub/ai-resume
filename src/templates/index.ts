@@ -2,6 +2,7 @@ import { TemplateConfig } from '../types'
 import { ResumeTemplate } from '../types/template'
 import { singleColumnConfig } from './SingleColumnTemplate'
 import { twoColumnConfig } from './TwoColumnTemplate'
+import { TimelineTemplate } from './TimelineTemplate'
 
 const professional: TemplateConfig = {
   id: 'professional',
@@ -199,6 +200,34 @@ const twoColumn: TemplateConfig = {
   }
 }
 
+const timeline: TemplateConfig = {
+  id: 'timeline',
+  name: '时间轴',
+  description: '清晰的时间轴布局',
+  preview: '/templates/timeline.png',
+  colors: {
+    primary: '#2B6CB0',
+    secondary: '#4299E1',
+    accent: '#BEE3F8',
+    text: '#2D3748',
+    background: '#FFFFFF'
+  },
+  fonts: {
+    heading: 'system-ui',
+    body: 'system-ui'
+  },
+  spacing: {
+    section: 2,
+    item: 1.5
+  },
+  layout: {
+    headerStyle: 'left',
+    sectionStyle: 'minimal',
+    avatarStyle: 'rounded',
+    contentWidth: 'full'
+  }
+}
+
 export const templates: Record<string, ResumeTemplate> = {
   professional: {
     name: professional.name,
@@ -325,6 +354,24 @@ export const templates: Record<string, ResumeTemplate> = {
       }
     },
     thumbnail: twoColumn.preview
+  },
+  timeline: {
+    name: timeline.name,
+    description: timeline.description,
+    component: TimelineTemplate,
+    defaultConfig: {
+      colors: timeline.colors,
+      fonts: timeline.fonts,
+      spacing: {
+        section: `${timeline.spacing.section}rem`,
+        item: `${timeline.spacing.item}rem`
+      },
+      layout: {
+        ...timeline.layout,
+        sectionStyle: timeline.layout.sectionStyle as 'line' | 'boxed' | 'plain'
+      }
+    },
+    thumbnail: timeline.preview
   }
 }
 

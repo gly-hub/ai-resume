@@ -36,7 +36,7 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
 
   return (
     <HStack align="flex-start" spacing={8}>
-      {/* Left column - Basic info */}
+      {/* Left column - Basic info and Additional info */}
       <Box 
         width="30%" 
         className="page-break-inside-avoid"
@@ -45,10 +45,11 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
         pr={6}
       >
         <VStack spacing={6} align="stretch">
+          {/* Basic Info */}
           <Box className="page-break-inside-avoid">
-            <VStack align="center" spacing={4}>
+            <VStack align="stretch" spacing={4}>
               {resume.basicInfo.avatar && (
-                <Box position="relative" p={1}>
+                <Box position="relative" alignSelf="center" p={1}>
                   <Image
                     src={resume.basicInfo.avatar}
                     alt="头像"
@@ -59,57 +60,100 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
                   />
                 </Box>
               )}
-              <VStack align={layout.headerStyle === 'centered' ? 'center' : 'stretch'} flex={1} spacing={2}>
-                <Heading 
-                  size="lg" 
-                  color={colors.primary}
-                  fontFamily={fonts.heading}
-                >
-                  {resume.basicInfo.name}
-                </Heading>
-                <HStack spacing={4} wrap="wrap" justify={layout.headerStyle === 'centered' ? 'center' : 'flex-start'}>
-                  <Text color={colors.text} fontFamily={fonts.body}>
+              <VStack align="stretch" spacing={4}>
+                <Box>
+                  <Heading 
+                    size="xl" 
+                    color={colors.primary}
+                    fontFamily={fonts.heading}
+                    mb={2}
+                  >
+                    {resume.basicInfo.name}
+                  </Heading>
+                  <Text color={colors.text} fontFamily={fonts.body} fontSize="lg" mb={1}>
                     {resume.basicInfo.jobTitle}
                   </Text>
+                </Box>
+
+                <VStack align="stretch" spacing={2}>
                   {resume.basicInfo.location && (
-                    <>
-                      <Text color={colors.secondary}>·</Text>
-                      <Text color={colors.text} fontFamily={fonts.body}>
+                    <HStack spacing={2} align="flex-start">
+                      <Text color={colors.secondary} fontSize="md">📍</Text>
+                      <Text color={colors.text} fontFamily={fonts.body} wordBreak="break-word">
                         {resume.basicInfo.location}
                       </Text>
-                    </>
+                    </HStack>
                   )}
-                </HStack>
-                <HStack spacing={4} wrap="wrap" justify={layout.headerStyle === 'centered' ? 'center' : 'flex-start'}>
-                  <Text color={colors.text} fontFamily={fonts.body}>
-                    {resume.basicInfo.email}
-                  </Text>
+                  <HStack spacing={2} align="flex-start">
+                    <Text color={colors.secondary} fontSize="md">📧</Text>
+                    <Text color={colors.text} fontFamily={fonts.body} wordBreak="break-word">
+                      {resume.basicInfo.email}
+                    </Text>
+                  </HStack>
                   {resume.basicInfo.phone && (
-                    <>
-                      <Text color={colors.secondary}>·</Text>
-                      <Text color={colors.text} fontFamily={fonts.body}>
+                    <HStack spacing={2} align="flex-start">
+                      <Text color={colors.secondary} fontSize="md">📱</Text>
+                      <Text color={colors.text} fontFamily={fonts.body} wordBreak="break-word">
                         {resume.basicInfo.phone}
                       </Text>
-                    </>
+                    </HStack>
                   )}
-                </HStack>
-                {renderLinks(resume)}
+                </VStack>
+
+                <VStack align="stretch" spacing={2}>
+                  {resume.basicInfo.website && (
+                    <HStack spacing={2} align="flex-start">
+                      <Text color={colors.secondary} fontSize="sm">🌐</Text>
+                      <Text color={colors.text} fontFamily={fonts.body} fontSize="sm" wordBreak="break-word">
+                        {resume.basicInfo.website}
+                      </Text>
+                    </HStack>
+                  )}
+                  {resume.basicInfo.github && (
+                    <HStack spacing={2} align="flex-start">
+                      <Text color={colors.secondary} fontSize="sm">🔗</Text>
+                      <Text color={colors.text} fontFamily={fonts.body} fontSize="sm" wordBreak="break-word">
+                        {resume.basicInfo.github}
+                      </Text>
+                    </HStack>
+                  )}
+                  {resume.basicInfo.blog && (
+                    <HStack spacing={2} align="flex-start">
+                      <Text color={colors.secondary} fontSize="sm">📝</Text>
+                      <Text color={colors.text} fontFamily={fonts.body} fontSize="sm" wordBreak="break-word">
+                        {resume.basicInfo.blog}
+                      </Text>
+                    </HStack>
+                  )}
+                </VStack>
               </VStack>
             </VStack>
           </Box>
+
+          {/* Additional Info */}
+          {resume.sections
+            .filter(section => section.visible && section.type === 'additional')
+            .map(section => {
+              const sectionContent = renderSection(section, props)
+              return sectionContent ? (
+                <Box key={section.id} className="page-break-inside-avoid" {...getSectionStyle()} mb={4}>
+                  {sectionContent}
+                </Box>
+              ) : null
+            })}
         </VStack>
       </Box>
 
-      {/* Right column - All other sections */}
+      {/* Right column - All other sections except additional */}
       <Box width="70%" className="page-break-inside-avoid">
         <VStack spacing={spacing.section} align="stretch">
           {resume.sections
-            .filter(section => section.visible)
+            .filter(section => section.visible && section.type !== 'additional')
             .sort((a, b) => a.order - b.order)
             .map(section => {
               const sectionContent = renderSection(section, props)
               return sectionContent ? (
-                <Box key={section.id} className="page-break-inside-avoid" {...getSectionStyle()}>
+                <Box key={section.id} className="page-break-inside-avoid" {...getSectionStyle()} mb={4}>
                   {sectionContent}
                 </Box>
               ) : null

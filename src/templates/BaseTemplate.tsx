@@ -1,24 +1,40 @@
 import { Box, Text, VStack, Heading, UnorderedList, ListItem, HStack } from '@chakra-ui/react'
+import { FaGithub, FaGlobe, FaBlog } from 'react-icons/fa'
+import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md'
 import { TemplateProps } from '../types/template'
 import { ResumeSection } from '../types'
 
 export const renderLinks = (resume: TemplateProps['resume']) => {
+  const { basicInfo } = resume
   const links = []
-  if (resume.basicInfo.website) {
+
+  if (basicInfo.website) {
     links.push(
-      <Text key="website">个人网站：{resume.basicInfo.website}</Text>
+      <HStack key="website" spacing={2}>
+        <FaGlobe />
+        <Text>{basicInfo.website}</Text>
+      </HStack>
     )
   }
-  if (resume.basicInfo.github) {
+
+  if (basicInfo.github) {
     links.push(
-      <Text key="github">GitHub：{resume.basicInfo.github}</Text>
+      <HStack key="github" spacing={2}>
+        <FaGithub />
+        <Text>{basicInfo.github}</Text>
+      </HStack>
     )
   }
-  if (resume.basicInfo.blog) {
+
+  if (basicInfo.blog) {
     links.push(
-      <Text key="blog">技术博客：{resume.basicInfo.blog}</Text>
+      <HStack key="blog" spacing={2}>
+        <FaBlog />
+        <Text>{basicInfo.blog}</Text>
+      </HStack>
     )
   }
+
   return links
 }
 
@@ -33,17 +49,17 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
           <VStack align="stretch" spacing={4}>
             {resume.education.map((edu, index) => (
               <Box key={edu.id || index}>
-                <HStack justify="space-between" mb={1}>
-                  <Text fontWeight="bold">{edu.school}</Text>
-                  <Text>{`${edu.startDate} - ${edu.endDate}`}</Text>
+                <HStack justify="space-between" mb={2}>
+                  <Text fontWeight="bold" fontSize="lg">{edu.school}</Text>
+                  <Text color={colors.secondary}>{`${edu.startDate} - ${edu.endDate}`}</Text>
                 </HStack>
-                <Text>{edu.degree} · {edu.major}</Text>
-                {edu.gpa && <Text>GPA: {edu.gpa}</Text>}
+                <Text fontSize="md" mb={1}>{edu.degree} · {edu.major}</Text>
+                {edu.gpa && <Text color={colors.secondary}>GPA: {edu.gpa}</Text>}
                 {edu.courses?.length > 0 && (
-                  <Text>主修课程：{edu.courses.join('、')}</Text>
+                  <Text color={colors.secondary}>主修课程：{edu.courses.join('、')}</Text>
                 )}
                 {edu.awards?.length > 0 && (
-                  <Text>获奖情况：{edu.awards.join('、')}</Text>
+                  <Text color={colors.secondary}>获奖情况：{edu.awards.join('、')}</Text>
                 )}
               </Box>
             ))}
@@ -55,20 +71,20 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
           <VStack align="stretch" spacing={4}>
             {resume.experience.map((exp, index) => (
               <Box key={exp.id || index}>
-                <HStack justify="space-between" mb={1}>
-                  <Text fontWeight="bold">{exp.company}</Text>
-                  <Text>{`${exp.startDate} - ${exp.endDate}`}</Text>
+                <HStack justify="space-between" mb={2}>
+                  <Text fontWeight="bold" fontSize="lg">{exp.company}</Text>
+                  <Text color={colors.secondary}>{`${exp.startDate} - ${exp.endDate}`}</Text>
                 </HStack>
-                <Text mb={2}>{exp.position}</Text>
+                <Text fontSize="md" mb={2}>{exp.position}</Text>
                 {exp.description?.length > 0 && (
-                  <UnorderedList>
+                  <UnorderedList spacing={1}>
                     {exp.description.map((desc, i) => (
                       <ListItem key={i}>{desc}</ListItem>
                     ))}
                   </UnorderedList>
                 )}
                 {exp.technologies?.length > 0 && (
-                  <Text mt={1}>技术栈：{exp.technologies.join('、')}</Text>
+                  <Text mt={2} color={colors.secondary}>技术栈：{exp.technologies.join('、')}</Text>
                 )}
               </Box>
             ))}
@@ -80,27 +96,27 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
           <VStack align="stretch" spacing={4}>
             {resume.projects.map((proj, index) => (
               <Box key={proj.id || index}>
-                <HStack justify="space-between" mb={1}>
-                  <Text fontWeight="bold">{proj.name}</Text>
-                  <Text>{`${proj.startDate} - ${proj.endDate}`}</Text>
+                <HStack justify="space-between" mb={2}>
+                  <Text fontWeight="bold" fontSize="lg">{proj.name}</Text>
+                  <Text color={colors.secondary}>{`${proj.startDate} - ${proj.endDate}`}</Text>
                 </HStack>
-                <Text mb={2}>{proj.role}</Text>
+                <Text fontSize="md" mb={2}>{proj.role}</Text>
                 {proj.description?.length > 0 && (
-                  <UnorderedList>
+                  <UnorderedList spacing={1}>
                     {proj.description.map((desc, i) => (
                       <ListItem key={i}>{desc}</ListItem>
                     ))}
                   </UnorderedList>
                 )}
                 {proj.highlights?.length > 0 && (
-                  <UnorderedList>
+                  <UnorderedList spacing={1} mt={2}>
                     {proj.highlights.map((highlight, i) => (
                       <ListItem key={i}>{highlight}</ListItem>
                     ))}
                   </UnorderedList>
                 )}
                 {proj.technologies?.length > 0 && (
-                  <Text mt={1}>技术栈：{proj.technologies.join('、')}</Text>
+                  <Text mt={2} color={colors.secondary}>技术栈：{proj.technologies.join('、')}</Text>
                 )}
               </Box>
             ))}
@@ -113,7 +129,7 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
             {resume.skills.map((skill, index) => (
               <Box key={skill.id || index}>
                 <Text fontWeight="bold" mb={1}>{skill.category}</Text>
-                <Text>{skill.items.join('、')}</Text>
+                <Text color={colors.secondary}>{skill.items.join('、')}</Text>
               </Box>
             ))}
           </VStack>
@@ -127,31 +143,31 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
             {languages?.length > 0 && (
               <Box>
                 <Text fontWeight="bold" mb={1}>语言能力</Text>
-                <Text>{languages.join('、')}</Text>
+                <Text color={colors.secondary}>{languages.join('、')}</Text>
               </Box>
             )}
             {certifications?.length > 0 && (
               <Box>
                 <Text fontWeight="bold" mb={1}>专业认证</Text>
-                <Text>{certifications.join('、')}</Text>
+                <Text color={colors.secondary}>{certifications.join('、')}</Text>
               </Box>
             )}
             {talks?.length > 0 && (
               <Box>
                 <Text fontWeight="bold" mb={1}>技术分享</Text>
-                <Text>{talks.join('、')}</Text>
+                <Text color={colors.secondary}>{talks.join('、')}</Text>
               </Box>
             )}
             {publications?.length > 0 && (
               <Box>
                 <Text fontWeight="bold" mb={1}>出版物</Text>
-                <Text>{publications.join('、')}</Text>
+                <Text color={colors.secondary}>{publications.join('、')}</Text>
               </Box>
             )}
             {openSource?.length > 0 && (
               <Box>
                 <Text fontWeight="bold" mb={1}>开源贡献</Text>
-                <Text>{openSource.join('、')}</Text>
+                <Text color={colors.secondary}>{openSource.join('、')}</Text>
               </Box>
             )}
           </VStack>
@@ -163,10 +179,10 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
 
   return (
     <Box>
-      <Heading as="h2" size="md" color={colors.primary} mb={2}>
+      <Heading as="h2" size="md" color={colors.primary} mb={3}>
         {section.name}
       </Heading>
-      <Box borderBottom={`2px solid ${colors.primary}`} mb={3} />
+      <Box borderBottom={`2px solid ${colors.primary}`} mb={4} />
       {content}
     </Box>
   )
