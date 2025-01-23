@@ -76,10 +76,10 @@ export function ResumePDF() {
     content.style.backgroundColor = 'white'
     content.classList.add('resume-content')
     
-    // 为所有需要避免分页的元素添加类名
-    const elements = content.getElementsByClassName('chakra-stack')
-    Array.from(elements).forEach(element => {
-      element.classList.add('page-break-inside-avoid')
+    // 只对主要section添加避免分页
+    const mainSections = content.querySelectorAll('[data-section]')
+    mainSections.forEach(section => {
+      section.classList.add('page-break-inside-avoid')
     })
     
     printWindow.document.body.appendChild(content)
@@ -111,7 +111,7 @@ export function ResumePDF() {
         bg="white"
         width="210mm"
         margin="0 auto"
-        className="page-break-inside-avoid resume-content"
+        className="resume-content"
         sx={{
           '@media print': {
             margin: 0,
