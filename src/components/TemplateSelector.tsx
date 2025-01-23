@@ -58,7 +58,31 @@ export function TemplateSelector() {
     defaultValue: currentTemplate,
     onChange: (value) => {
       const templateType = value as TemplateType
-      updateTemplate(templateType, templates[templateType])
+      const spacing = {
+        section: Number(templates[templateType].defaultConfig.spacing.section.replace('rem', '')),
+        item: Number(templates[templateType].defaultConfig.spacing.item.replace('rem', ''))
+      }
+      const sectionStyle: 'minimal' | 'line' | 'boxed' = 
+        templates[templateType].defaultConfig.layout.sectionStyle === 'plain' ? 'minimal' : 
+        templates[templateType].defaultConfig.layout.sectionStyle === 'line' ? 'line' : 'boxed'
+
+      const templateConfig = {
+        id: templateType,
+        name: templates[templateType].name,
+        description: templates[templateType].description,
+        preview: templates[templateType].thumbnail,
+        colors: {
+          ...templates[templateType].defaultConfig.colors,
+          background: '#FFFFFF'
+        },
+        fonts: templates[templateType].defaultConfig.fonts,
+        spacing,
+        layout: {
+          ...templates[templateType].defaultConfig.layout,
+          sectionStyle
+        }
+      }
+      updateTemplate(templateType, templateConfig)
     },
   })
 
@@ -71,7 +95,7 @@ export function TemplateSelector() {
             {...getRadioProps({ value: id })}
             name={template.name}
             description={template.description}
-            preview={template.preview}
+            preview={template.thumbnail}
           />
         ))}
       </SimpleGrid>

@@ -1,4 +1,7 @@
 import { TemplateConfig } from '../types'
+import { ResumeTemplate } from '../types/template'
+import { singleColumnConfig } from './SingleColumnTemplate'
+import { twoColumnConfig } from './TwoColumnTemplate'
 
 const professional: TemplateConfig = {
   id: 'professional',
@@ -196,14 +199,136 @@ const twoColumn: TemplateConfig = {
   }
 }
 
-export const templates = {
-  twoColumn,
-  professional,
-  modern,
-  minimal,
-  creative,
-  compact,
-  elegant
+export const templates: Record<string, ResumeTemplate> = {
+  professional: {
+    name: professional.name,
+    description: professional.description,
+    component: twoColumnConfig.component,
+    defaultConfig: {
+      colors: professional.colors,
+      fonts: professional.fonts,
+      spacing: {
+        section: `${professional.spacing.section * 0.25}rem`,
+        item: `${professional.spacing.item * 0.25}rem`
+      },
+      layout: {
+        ...professional.layout,
+        sectionStyle: professional.layout.sectionStyle as 'line' | 'boxed' | 'plain'
+      }
+    },
+    thumbnail: professional.preview
+  },
+  modern: {
+    name: modern.name,
+    description: modern.description,
+    component: singleColumnConfig.component,
+    defaultConfig: {
+      colors: modern.colors,
+      fonts: modern.fonts,
+      spacing: {
+        section: `${modern.spacing.section * 0.25}rem`,
+        item: `${modern.spacing.item * 0.25}rem`
+      },
+      layout: {
+        ...modern.layout,
+        sectionStyle: modern.layout.sectionStyle as 'line' | 'boxed' | 'plain'
+      }
+    },
+    thumbnail: modern.preview
+  },
+  minimal: {
+    name: minimal.name,
+    description: minimal.description,
+    component: singleColumnConfig.component,
+    defaultConfig: {
+      colors: minimal.colors,
+      fonts: minimal.fonts,
+      spacing: {
+        section: `${minimal.spacing.section * 0.25}rem`,
+        item: `${minimal.spacing.item * 0.25}rem`
+      },
+      layout: {
+        ...minimal.layout,
+        sectionStyle: 'plain' as const
+      }
+    },
+    thumbnail: minimal.preview
+  },
+  creative: {
+    name: creative.name,
+    description: creative.description,
+    component: singleColumnConfig.component,
+    defaultConfig: {
+      colors: creative.colors,
+      fonts: creative.fonts,
+      spacing: {
+        section: `${creative.spacing.section * 0.25}rem`,
+        item: `${creative.spacing.item * 0.25}rem`
+      },
+      layout: {
+        ...creative.layout,
+        sectionStyle: creative.layout.sectionStyle as 'line' | 'boxed' | 'plain'
+      }
+    },
+    thumbnail: creative.preview
+  },
+  compact: {
+    name: compact.name,
+    description: compact.description,
+    component: twoColumnConfig.component,
+    defaultConfig: {
+      colors: compact.colors,
+      fonts: compact.fonts,
+      spacing: {
+        section: `${compact.spacing.section * 0.25}rem`,
+        item: `${compact.spacing.item * 0.25}rem`
+      },
+      layout: {
+        ...compact.layout,
+        sectionStyle: compact.layout.sectionStyle as 'line' | 'boxed' | 'plain'
+      }
+    },
+    thumbnail: compact.preview
+  },
+  elegant: {
+    name: elegant.name,
+    description: elegant.description,
+    component: singleColumnConfig.component,
+    defaultConfig: {
+      colors: elegant.colors,
+      fonts: elegant.fonts,
+      spacing: {
+        section: `${elegant.spacing.section * 0.25}rem`,
+        item: `${elegant.spacing.item * 0.25}rem`
+      },
+      layout: {
+        ...elegant.layout,
+        sectionStyle: 'plain' as const
+      }
+    },
+    thumbnail: elegant.preview
+  },
+  twoColumn: {
+    name: twoColumn.name,
+    description: twoColumn.description,
+    component: twoColumnConfig.component,
+    defaultConfig: {
+      colors: twoColumn.colors,
+      fonts: twoColumn.fonts,
+      spacing: {
+        section: `${twoColumn.spacing.section * 0.25}rem`,
+        item: `${twoColumn.spacing.item * 0.25}rem`
+      },
+      layout: {
+        ...twoColumn.layout,
+        sectionStyle: 'plain' as const
+      }
+    },
+    thumbnail: twoColumn.preview
+  }
 }
+
+export * from './SingleColumnTemplate'
+export * from './TwoColumnTemplate'
 
 export type TemplateName = keyof typeof templates 
