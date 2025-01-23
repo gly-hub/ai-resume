@@ -1,8 +1,7 @@
-import { ChakraProvider, extendTheme, Box } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Editor } from './pages/Editor'
 import { Home } from './pages/Home'
-import { Header } from './components/Header'
 
 const theme = extendTheme({
   styles: {
@@ -23,10 +22,6 @@ function App() {
           <Route path="/editor" element={<Editor />} />
         </Routes>
       </Router>
-      <Box minH="100vh" bg="gray.50">
-        <Header />
-        <Editor />
-      </Box>
     </ChakraProvider>
   )
 }
