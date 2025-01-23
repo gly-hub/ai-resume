@@ -86,10 +86,6 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
                 <Text>男</Text>
               </HStack>
               <HStack>
-                <Text fontWeight="bold" width="80px">工作年限：</Text>
-                <Text>3年</Text>
-              </HStack>
-              <HStack>
                 <Text fontWeight="bold" width="80px">邮箱：</Text>
                 <Text>{resume.basicInfo.email}</Text>
               </HStack>
