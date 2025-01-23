@@ -15,12 +15,14 @@ import { useResumeStore } from '../store/resumeStore'
 import { v4 as uuidv4 } from 'uuid'
 import { Education } from '../types'
 
-export function EducationForm() {
+export const EducationForm = () => {
   const education = useResumeStore((state) => state.resume.education)
+  const addEducation = useResumeStore((state) => state.addEducation)
   const updateEducation = useResumeStore((state) => state.updateEducation)
+  const deleteEducation = useResumeStore((state) => state.deleteEducation)
 
   const handleAdd = () => {
-    const newEducation: Education = {
+    const newEducation = {
       id: uuidv4(),
       school: '',
       degree: '',
@@ -29,42 +31,30 @@ export function EducationForm() {
       endDate: '',
       gpa: '',
       courses: [],
-      awards: [],
+      awards: []
     }
-    updateEducation([...education, newEducation])
+    addEducation(newEducation)
   }
 
   const handleDelete = (id: string) => {
-    updateEducation(education.filter((edu) => edu.id !== id))
+    deleteEducation(id)
   }
 
-  const handleChange = (id: string, field: keyof Education, value: string) => {
-    updateEducation(
-      education.map((edu) =>
-        edu.id === id ? { ...edu, [field]: value } : edu
-      )
-    )
+  const handleChange = (id: string, field: string, value: string) => {
+    const edu = education.find((e) => e.id === id)
+    if (edu) {
+      updateEducation(id, { ...edu, [field]: value })
+    }
   }
 
-  const handleAddItem = (id: string, field: 'courses' | 'awards', value: string) => {
-    if (!value.trim()) return
-    updateEducation(
-      education.map((edu) =>
-        edu.id === id
-          ? { ...edu, [field]: [...edu[field], value.trim()] }
-          : edu
-      )
-    )
-  }
-
-  const handleDeleteItem = (id: string, field: 'courses' | 'awards', index: number) => {
-    updateEducation(
-      education.map((edu) =>
-        edu.id === id
-          ? { ...edu, [field]: edu[field].filter((_, i) => i !== index) }
-          : edu
-      )
-    )
+  const handleArrayChange = (id: string, field: string, value: string) => {
+    const edu = education.find((e) => e.id === id)
+    if (edu) {
+      updateEducation(id, {
+        ...edu,
+        [field]: value.split(/\r?\n/).filter(Boolean)
+      })
+    }
   }
 
   return (
@@ -166,31 +156,17 @@ export function EducationForm() {
                       icon={<DeleteIcon />}
                       size="md"
                       p={2}
-                      onClick={() => handleDeleteItem(edu.id, 'courses', index)}
+                      onClick={() => handleArrayChange(edu.id, 'courses', edu.courses.filter((_, i) => i !== index).join('\n'))}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
                     placeholder="添加主修课程"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault()
-                        handleAddItem(edu.id, 'courses', (e.target as HTMLInputElement).value)
-                        ;(e.target as HTMLInputElement).value = ''
-                      }
-                    }}
-                  />
-                  <IconButton
-                    aria-label="添加课程"
-                    icon={<AddIcon />}
-                    onClick={(e) => {
-                      const input = (e.currentTarget as HTMLElement).parentElement?.querySelector('input')
-                      if (input) {
-                        handleAddItem(edu.id, 'courses', input.value)
-                        input.value = ''
-                      }
-                    }}
+                    value={edu.courses.join('\n')}
+                    onChange={(e) => handleArrayChange(edu.id, 'courses', e.target.value)}
+                    resize="vertical"
+                    sx={{ whiteSpace: 'pre' }}
                   />
                 </HStack>
               </VStack>
@@ -207,31 +183,17 @@ export function EducationForm() {
                       icon={<DeleteIcon />}
                       size="md"
                       p={2}
-                      onClick={() => handleDeleteItem(edu.id, 'awards', index)}
+                      onClick={() => handleArrayChange(edu.id, 'awards', edu.awards.filter((_, i) => i !== index).join('\n'))}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
                     placeholder="添加获奖情况"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault()
-                        handleAddItem(edu.id, 'awards', (e.target as HTMLInputElement).value)
-                        ;(e.target as HTMLInputElement).value = ''
-                      }
-                    }}
-                  />
-                  <IconButton
-                    aria-label="添加获奖"
-                    icon={<AddIcon />}
-                    onClick={(e) => {
-                      const input = (e.currentTarget as HTMLElement).parentElement?.querySelector('input')
-                      if (input) {
-                        handleAddItem(edu.id, 'awards', input.value)
-                        input.value = ''
-                      }
-                    }}
+                    value={edu.awards.join('\n')}
+                    onChange={(e) => handleArrayChange(edu.id, 'awards', e.target.value)}
+                    resize="vertical"
+                    sx={{ whiteSpace: 'pre' }}
                   />
                 </HStack>
               </VStack>

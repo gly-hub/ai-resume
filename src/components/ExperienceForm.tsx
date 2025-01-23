@@ -15,54 +15,44 @@ import { useResumeStore } from '../store/resumeStore'
 import { v4 as uuidv4 } from 'uuid'
 import { WorkExperience } from '../types'
 
-export function ExperienceForm() {
+export const ExperienceForm = () => {
   const experience = useResumeStore((state) => state.resume.experience)
+  const addExperience = useResumeStore((state) => state.addExperience)
   const updateExperience = useResumeStore((state) => state.updateExperience)
+  const deleteExperience = useResumeStore((state) => state.deleteExperience)
 
   const handleAdd = () => {
-    const newExperience: WorkExperience = {
+    const newExperience = {
       id: uuidv4(),
       company: '',
       position: '',
       startDate: '',
       endDate: '',
       description: [],
-      technologies: [],
+      technologies: []
     }
-    updateExperience([...experience, newExperience])
+    addExperience(newExperience)
   }
 
   const handleDelete = (id: string) => {
-    updateExperience(experience.filter((exp) => exp.id !== id))
+    deleteExperience(id)
   }
 
-  const handleChange = (id: string, field: keyof WorkExperience, value: string) => {
-    updateExperience(
-      experience.map((exp) =>
-        exp.id === id ? { ...exp, [field]: value } : exp
-      )
-    )
+  const handleChange = (id: string, field: string, value: string) => {
+    const exp = experience.find((e) => e.id === id)
+    if (exp) {
+      updateExperience(id, { ...exp, [field]: value })
+    }
   }
 
-  const handleAddItem = (id: string, field: 'description' | 'technologies', value: string) => {
-    if (!value.trim()) return
-    updateExperience(
-      experience.map((exp) =>
-        exp.id === id
-          ? { ...exp, [field]: [...exp[field], value.trim()] }
-          : exp
-      )
-    )
-  }
-
-  const handleDeleteItem = (id: string, field: 'description' | 'technologies', index: number) => {
-    updateExperience(
-      experience.map((exp) =>
-        exp.id === id
-          ? { ...exp, [field]: exp[field].filter((_, i) => i !== index) }
-          : exp
-      )
-    )
+  const handleArrayChange = (id: string, field: string, value: string) => {
+    const exp = experience.find((e) => e.id === id)
+    if (exp) {
+      updateExperience(id, {
+        ...exp,
+        [field]: value.split(/\r?\n/).filter(Boolean)
+      })
+    }
   }
 
   return (
@@ -146,31 +136,17 @@ export function ExperienceForm() {
                       icon={<DeleteIcon />}
                       size="md"
                       p={2}
-                      onClick={() => handleDeleteItem(exp.id, 'description', index)}
+                      onClick={() => handleArrayChange(exp.id, 'description', exp.description.filter((_, i) => i !== index).join('\n'))}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
                     placeholder="添加工作内容，建议以动词开头，包含具体的量化指标"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault()
-                        handleAddItem(exp.id, 'description', (e.target as HTMLInputElement).value)
-                        ;(e.target as HTMLInputElement).value = ''
-                      }
-                    }}
-                  />
-                  <IconButton
-                    aria-label="添加工作内容"
-                    icon={<AddIcon />}
-                    onClick={(e) => {
-                      const input = (e.currentTarget as HTMLElement).parentElement?.querySelector('input')
-                      if (input) {
-                        handleAddItem(exp.id, 'description', input.value)
-                        input.value = ''
-                      }
-                    }}
+                    value={exp.description.join('\n')}
+                    onChange={(e) => handleArrayChange(exp.id, 'description', e.target.value)}
+                    resize="vertical"
+                    sx={{ whiteSpace: 'pre' }}
                   />
                 </HStack>
               </VStack>
@@ -187,31 +163,17 @@ export function ExperienceForm() {
                       icon={<DeleteIcon />}
                       size="md"
                       p={2}
-                      onClick={() => handleDeleteItem(exp.id, 'technologies', index)}
+                      onClick={() => handleArrayChange(exp.id, 'technologies', exp.technologies.filter((_, i) => i !== index).join('\n'))}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
                     placeholder="添加技术栈"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault()
-                        handleAddItem(exp.id, 'technologies', (e.target as HTMLInputElement).value)
-                        ;(e.target as HTMLInputElement).value = ''
-                      }
-                    }}
-                  />
-                  <IconButton
-                    aria-label="添加技术栈"
-                    icon={<AddIcon />}
-                    onClick={(e) => {
-                      const input = (e.currentTarget as HTMLElement).parentElement?.querySelector('input')
-                      if (input) {
-                        handleAddItem(exp.id, 'technologies', input.value)
-                        input.value = ''
-                      }
-                    }}
+                    value={exp.technologies.join('\n')}
+                    onChange={(e) => handleArrayChange(exp.id, 'technologies', e.target.value)}
+                    resize="vertical"
+                    sx={{ whiteSpace: 'pre' }}
                   />
                 </HStack>
               </VStack>

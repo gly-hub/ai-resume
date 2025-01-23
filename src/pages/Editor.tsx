@@ -4,7 +4,7 @@ import { ResumePDF } from '../components/ResumePDF'
 
 export function Editor() {
   return (
-    <Grid 
+    <Grid  
       templateColumns={["1fr", "1fr", "repeat(2, 1fr)"]} 
       gap={4} 
       h="100vh" 

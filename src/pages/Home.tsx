@@ -14,7 +14,9 @@ export function Home() {
   return (
     <Container maxW="container.xl" py={10}>
       <VStack spacing={8} align="center">
-        <Heading size="2xl">OpenCurriculumVitae</Heading>
+        <Heading as="h1" size="2xl" mb={4}>
+          OpenResume
+        </Heading>
         <Text fontSize="xl" textAlign="center">
           创建专业的简历，展现最好的自己
         </Text>

@@ -13,14 +13,15 @@ import {
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { useResumeStore } from '../store/resumeStore'
 import { v4 as uuidv4 } from 'uuid'
-import { Project } from '../types'
 
-export function ProjectForm() {
+export const ProjectForm = () => {
   const projects = useResumeStore((state) => state.resume.projects)
-  const updateProjects = useResumeStore((state) => state.updateProjects)
+  const addProject = useResumeStore((state) => state.addProject)
+  const updateProject = useResumeStore((state) => state.updateProject)
+  const deleteProject = useResumeStore((state) => state.deleteProject)
 
   const handleAdd = () => {
-    const newProject: Project = {
+    const newProject = {
       id: uuidv4(),
       name: '',
       role: '',
@@ -28,42 +29,30 @@ export function ProjectForm() {
       endDate: '',
       description: [],
       highlights: [],
-      technologies: [],
+      technologies: []
     }
-    updateProjects([...projects, newProject])
+    addProject(newProject)
   }
 
   const handleDelete = (id: string) => {
-    updateProjects(projects.filter((proj) => proj.id !== id))
+    deleteProject(id)
   }
 
-  const handleChange = (id: string, field: keyof Project, value: string) => {
-    updateProjects(
-      projects.map((proj) =>
-        proj.id === id ? { ...proj, [field]: value } : proj
-      )
-    )
+  const handleChange = (id: string, field: string, value: string) => {
+    const proj = projects.find((p) => p.id === id)
+    if (proj) {
+      updateProject(id, { ...proj, [field]: value })
+    }
   }
 
-  const handleAddItem = (id: string, field: 'description' | 'highlights' | 'technologies', value: string) => {
-    if (!value.trim()) return
-    updateProjects(
-      projects.map((proj) =>
-        proj.id === id
-          ? { ...proj, [field]: [...proj[field], value.trim()] }
-          : proj
-      )
-    )
-  }
-
-  const handleDeleteItem = (id: string, field: 'description' | 'highlights' | 'technologies', index: number) => {
-    updateProjects(
-      projects.map((proj) =>
-        proj.id === id
-          ? { ...proj, [field]: proj[field].filter((_, i) => i !== index) }
-          : proj
-      )
-    )
+  const handleArrayChange = (id: string, field: string, value: string) => {
+    const proj = projects.find((p) => p.id === id)
+    if (proj) {
+      updateProject(id, {
+        ...proj,
+        [field]: value.split(/\r?\n/).filter(Boolean)
+      })
+    }
   }
 
   return (
@@ -143,76 +132,48 @@ export function ProjectForm() {
                   <HStack key={index}>
                     <Text flex={1}>{item}</Text>
                     <IconButton
-                      aria-label="删除描述"
+                      aria-label="删除项目描述"
                       icon={<DeleteIcon />}
                       size="md"
                       p={2}
-                      onClick={() => handleDeleteItem(proj.id, 'description', index)}
+                      onClick={() => handleArrayChange(proj.id, 'description', proj.description.filter((_, i) => i !== index).join('\n'))}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
-                    placeholder="添加项目描述"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault()
-                        handleAddItem(proj.id, 'description', (e.target as HTMLInputElement).value)
-                        ;(e.target as HTMLInputElement).value = ''
-                      }
-                    }}
-                  />
-                  <IconButton
-                    aria-label="添加描述"
-                    icon={<AddIcon />}
-                    onClick={(e) => {
-                      const input = (e.currentTarget as HTMLElement).parentElement?.querySelector('input')
-                      if (input) {
-                        handleAddItem(proj.id, 'description', input.value)
-                        input.value = ''
-                      }
-                    }}
+                    placeholder="添加项目描述，建议以动词开头，包含具体的量化指标"
+                    value={proj.description.join('\n')}
+                    onChange={(e) => handleArrayChange(proj.id, 'description', e.target.value)}
+                    resize="vertical"
+                    sx={{ whiteSpace: 'pre' }}
                   />
                 </HStack>
               </VStack>
             </FormControl>
 
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel>项目亮点</FormLabel>
               <VStack align="stretch" spacing={2}>
                 {proj.highlights.map((item, index) => (
                   <HStack key={index}>
                     <Text flex={1}>{item}</Text>
                     <IconButton
-                      aria-label="删除亮点"
+                      aria-label="删除项目亮点"
                       icon={<DeleteIcon />}
                       size="md"
                       p={2}
-                      onClick={() => handleDeleteItem(proj.id, 'highlights', index)}
+                      onClick={() => handleArrayChange(proj.id, 'highlights', proj.highlights.filter((_, i) => i !== index).join('\n'))}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
-                    placeholder="添加项目亮点"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault()
-                        handleAddItem(proj.id, 'highlights', (e.target as HTMLInputElement).value)
-                        ;(e.target as HTMLInputElement).value = ''
-                      }
-                    }}
-                  />
-                  <IconButton
-                    aria-label="添加亮点"
-                    icon={<AddIcon />}
-                    onClick={(e) => {
-                      const input = (e.currentTarget as HTMLElement).parentElement?.querySelector('input')
-                      if (input) {
-                        handleAddItem(proj.id, 'highlights', input.value)
-                        input.value = ''
-                      }
-                    }}
+                    placeholder="添加项目亮点，建议突出个人贡献和项目影响"
+                    value={proj.highlights.join('\n')}
+                    onChange={(e) => handleArrayChange(proj.id, 'highlights', e.target.value)}
+                    resize="vertical"
+                    sx={{ whiteSpace: 'pre' }}
                   />
                 </HStack>
               </VStack>
@@ -225,35 +186,21 @@ export function ProjectForm() {
                   <HStack key={index}>
                     <Text flex={1}>{item}</Text>
                     <IconButton
-                      aria-label="删除技术"
+                      aria-label="删除技术栈"
                       icon={<DeleteIcon />}
                       size="md"
                       p={2}
-                      onClick={() => handleDeleteItem(proj.id, 'technologies', index)}
+                      onClick={() => handleArrayChange(proj.id, 'technologies', proj.technologies.filter((_, i) => i !== index).join('\n'))}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
                     placeholder="添加技术栈"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault()
-                        handleAddItem(proj.id, 'technologies', (e.target as HTMLInputElement).value)
-                        ;(e.target as HTMLInputElement).value = ''
-                      }
-                    }}
-                  />
-                  <IconButton
-                    aria-label="添加技术"
-                    icon={<AddIcon />}
-                    onClick={(e) => {
-                      const input = (e.currentTarget as HTMLElement).parentElement?.querySelector('input')
-                      if (input) {
-                        handleAddItem(proj.id, 'technologies', input.value)
-                        input.value = ''
-                      }
-                    }}
+                    value={proj.technologies.join('\n')}
+                    onChange={(e) => handleArrayChange(proj.id, 'technologies', e.target.value)}
+                    resize="vertical"
+                    sx={{ whiteSpace: 'pre' }}
                   />
                 </HStack>
               </VStack>

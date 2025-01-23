@@ -57,27 +57,33 @@ export interface Additional {
   openSource: string[]
 }
 
-export type TemplateType = 'professional' | 'modern' | 'simple' | 'creative'
+export type TemplateType = 'professional' | 'modern' | 'minimal' | 'creative' | 'compact' | 'elegant' | 'twoColumn'
 
 export interface TemplateConfig {
-  id: TemplateType
+  id: string
   name: string
   description: string
   preview: string
   colors: {
     primary: string
     secondary: string
+    accent: string
     text: string
     background: string
-    accent: string
   }
   fonts: {
     heading: string
     body: string
   }
   spacing: {
-    section: string
-    item: string
+    section: number
+    item: number
+  }
+  layout: {
+    headerStyle: 'centered' | 'left' | 'right' | 'split'
+    sectionStyle: 'boxed' | 'line' | 'minimal'
+    avatarStyle: 'circle' | 'square' | 'rounded'
+    contentWidth: 'full' | 'narrow' | 'wide'
   }
 }
 

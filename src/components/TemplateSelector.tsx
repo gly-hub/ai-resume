@@ -14,7 +14,8 @@ import { useResumeStore } from '../store/resumeStore'
 import { TemplateType } from '../types'
 
 function TemplateCard(props: UseRadioProps & { name: string; description: string; preview: string }) {
-  const { getInputProps, getRadioProps } = useRadio(props)
+  const { name, description, preview, ...radioProps } = props
+  const { getInputProps, getRadioProps } = useRadio(radioProps)
   const input = getInputProps()
   const radio = getRadioProps()
 
@@ -34,14 +35,13 @@ function TemplateCard(props: UseRadioProps & { name: string; description: string
       >
         <VStack spacing={3}>
           <Image
-            src={props.preview}
-            alt={props.name}
+            src={preview}
+            alt={name}
             borderRadius="md"
-            fallbackSrc="https://via.placeholder.com/200x300?text=预览图"
           />
-          <Text fontWeight="bold">{props.name}</Text>
+          <Text fontWeight="bold">{name}</Text>
           <Text fontSize="sm" color="gray.600" noOfLines={2}>
-            {props.description}
+            {description}
           </Text>
         </VStack>
       </Box>
@@ -57,20 +57,21 @@ export function TemplateSelector() {
     name: 'template',
     defaultValue: currentTemplate,
     onChange: (value) => {
-      updateTemplate(value as TemplateType, templates[value])
+      const templateType = value as TemplateType
+      updateTemplate(templateType, templates[templateType])
     },
   })
 
   return (
     <Center p={4}>
       <SimpleGrid columns={[1, 2, 4]} spacing={6} {...getRootProps()}>
-        {Object.values(templates).map((template) => (
+        {Object.entries(templates).map(([id, template]) => (
           <TemplateCard
-            key={template.id}
+            key={id}
+            {...getRadioProps({ value: id })}
             name={template.name}
             description={template.description}
             preview={template.preview}
-            {...getRadioProps({ value: template.id })}
           />
         ))}
       </SimpleGrid>
