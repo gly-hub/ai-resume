@@ -3,8 +3,8 @@ import { TemplateProps } from '../types/template'
 import { renderLinks, renderSection } from './BaseTemplate'
 
 export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
-  const { resume, colors, spacing, layout, fonts, fontSize } = props
-
+  const { resume, colors, spacing, layout, fontSize } = props
+  console.log("fontsize is",fontSize)
   const getAvatarStyle = () => {
     const size = props.avatarSize || '100px'
     switch (layout.avatarStyle) {
@@ -90,32 +90,32 @@ export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
             <Heading 
               size="xl" 
               color={colors.primary}
-              fontFamily={fonts.heading}
+              fontSize={fontSize?.heading}
               mb={1}
             >
               {resume.basicInfo.name}
             </Heading>
             <HStack spacing={4} wrap="wrap" justify={layout.headerStyle === 'centered' ? 'center' : 'flex-start'}>
-              <Text color={colors.text} fontFamily={fonts.body} fontSize="lg">
+              <Text color={colors.text} fontSize={fontSize?.body} fontSize="lg">
                 {resume.basicInfo.jobTitle}
               </Text>
               {resume.basicInfo.location && (
                 <>
                   <Text color={colors.secondary}>·</Text>
-                  <Text color={colors.text} fontFamily={fonts.body} fontSize="lg">
+                  <Text color={colors.text} fontSize={fontSize?.body} fontSize="lg">
                     {resume.basicInfo.location}
                   </Text>
                 </>
               )}
             </HStack>
             <HStack spacing={4} wrap="wrap" justify={layout.headerStyle === 'centered' ? 'center' : 'flex-start'}>
-              <Text color={colors.text} fontFamily={fonts.body}>
+              <Text color={colors.text} fontSize={fontSize?.body}>
                 {resume.basicInfo.email}
               </Text>
               {resume.basicInfo.phone && (
                 <>
                   <Text color={colors.secondary}>·</Text>
-                  <Text color={colors.text} fontFamily={fonts.body}>
+                  <Text color={colors.text} fontSize={fontSize?.body}>
                     {resume.basicInfo.phone}
                   </Text>
                 </>
