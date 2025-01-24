@@ -12,6 +12,16 @@ export interface TemplateProps {
     heading: string
     body: string
   }
+  fontSize: {
+    heading: {
+      title: string
+      section: string
+    }
+    body: {
+      normal: string
+      small: string
+    }
+  }
   spacing: {
     section: string
     item: string
