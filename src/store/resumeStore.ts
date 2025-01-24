@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { Resume, ResumeSection, BasicInfo, Education, WorkExperience, Project, Skill, Additional, TemplateType, TemplateConfig } from '../types'
 import { sampleResume } from './sampleResume'
 import { templates } from '../templates'
+import { v4 as uuidv4 } from 'uuid'
 
 interface ResumeStore {
   resume: Resume
@@ -22,6 +23,7 @@ interface ResumeStore {
   updateTemplate: (template: TemplateType, config: TemplateConfig) => void
   loadSample: () => void
   updateResume: (resume: Partial<Resume>) => void
+  loadFromAI: (aiGeneratedResume: Partial<Resume>) => void
 }
 
 const initialResume: Resume = {
@@ -155,13 +157,15 @@ export const useResumeStore = create<ResumeStore>((set) => ({
   updateTemplate: (template, config) => {
     console.log('Updating template:', template, config)
     set((state) => {
+      const currentConfig = state.resume.templateConfig
       const newState = {
         resume: {
           ...state.resume,
           template,
           templateConfig: {
-            ...state.resume.templateConfig,
-            ...config
+            ...currentConfig,
+            ...config,
+            spacing: currentConfig.spacing
           }
         }
       }
@@ -176,5 +180,42 @@ export const useResumeStore = create<ResumeStore>((set) => ({
         ...resumeData
       }
     })),
-  loadSample: () => set({ resume: sampleResume })
+  loadSample: () => set({ resume: sampleResume }),
+  loadFromAI: (aiGeneratedResume) => {
+    set((state) => {
+      // 确保所有数组项都有唯一的 ID
+      const processedResume = {
+        ...aiGeneratedResume,
+        education: aiGeneratedResume.education?.map(edu => ({
+          ...edu,
+          id: edu.id || uuidv4()
+        })) || state.resume.education,
+        experience: aiGeneratedResume.experience?.map(exp => ({
+          ...exp,
+          id: exp.id || uuidv4()
+        })) || state.resume.experience,
+        projects: aiGeneratedResume.projects?.map(proj => ({
+          ...proj,
+          id: proj.id || uuidv4()
+        })) || state.resume.projects,
+        skills: aiGeneratedResume.skills?.map(skill => ({
+          ...skill,
+          id: skill.id || uuidv4()
+        })) || state.resume.skills,
+        // 保持默认的 sections 配置
+        sections: state.resume.sections,
+        // 保持默认的模板配置
+        template: aiGeneratedResume.template || state.resume.template,
+        templateConfig: aiGeneratedResume.templateConfig || state.resume.templateConfig,
+        language: aiGeneratedResume.language || state.resume.language
+      };
+
+      return {
+        resume: {
+          ...state.resume,
+          ...processedResume
+        }
+      };
+    });
+  }
 })) 
