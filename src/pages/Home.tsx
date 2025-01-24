@@ -30,13 +30,13 @@ export function Home() {
             >
               创建新简历
             </Button>
-            <Button
+            {/* <Button
               colorScheme="teal"
               size="lg"
               onClick={() => navigate('/ai-chat')}
             >
               AI 助手
-            </Button>
+            </Button> */}
           </HStack>
         </Box>
       </VStack>

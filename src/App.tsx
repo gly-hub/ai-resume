@@ -21,7 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/editor" element={<Editor />} />
-          <Route path="/ai-chat" element={<AIChat />} />
+          {/* <Route path="/ai-chat" element={<AIChat />} /> */}
         </Routes>
       </Router>
     </ChakraProvider>
