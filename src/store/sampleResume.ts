@@ -144,5 +144,12 @@ export const sampleResume: Resume = {
   ],
   language: 'zh',
   template: 'professional',
-  templateConfig: templates.professional
+  templateConfig: {
+    ...templates.professional.defaultConfig,
+    fontSize: {
+      heading: '24px',
+      body: '14px',
+      secondary: '12px'
+    }
+  }
 } 

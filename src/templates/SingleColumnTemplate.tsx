@@ -3,7 +3,7 @@ import { TemplateProps } from '../types/template'
 import { renderLinks, renderSection } from './BaseTemplate'
 
 export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
-  const { resume, colors, spacing, layout, fonts } = props
+  const { resume, colors, spacing, layout, fonts, fontSize } = props
 
   const getAvatarStyle = () => {
     const size = '100px'
@@ -122,7 +122,7 @@ export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
               )}
             </HStack>
             <VStack spacing={1} align={layout.headerStyle === 'centered' ? 'center' : 'flex-start'}>
-              {renderLinks(resume)}
+              {renderLinks(resume, fontSize)}
             </VStack>
           </VStack>
         </HStack>

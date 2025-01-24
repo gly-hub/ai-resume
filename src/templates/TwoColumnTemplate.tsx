@@ -1,9 +1,10 @@
 import { Box, VStack, HStack, Image, Heading, Text } from '@chakra-ui/react'
 import { TemplateProps } from '../types/template'
-import { renderLinks, renderSection } from './BaseTemplate'
+import { renderSection } from './BaseTemplate'
+import { ResumeSection } from '../types'
 
 export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
-  const { resume, colors, spacing, layout, fonts } = props
+  const { resume, colors, spacing, layout, fonts, fontSize } = props
 
   const getAvatarStyle = () => {
     const size = '150px'
@@ -35,18 +36,18 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
   }
 
   return (
-    <HStack align="flex-start" spacing={8}>
+    <HStack align="flex-start" spacing={8} data-two-column-layout>
       {/* Left column - Basic info and Additional info */}
       <Box 
         width="30%" 
-        className="page-break-inside-avoid"
         borderRight="1px solid"
         borderColor={colors.accent}
         pr={6}
+        data-left-column
       >
         <VStack spacing={6} align="stretch">
           {/* Basic Info */}
-          <Box className="page-break-inside-avoid">
+          <Box data-page-section>
             <VStack align="stretch" spacing={4}>
               {resume.basicInfo.avatar && (
                 <Box position="relative" alignSelf="center" p={1}>
@@ -66,11 +67,12 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
                     size="xl" 
                     color={colors.primary}
                     fontFamily={fonts.heading}
+                    fontSize={fontSize?.heading}
                     mb={2}
                   >
                     {resume.basicInfo.name}
                   </Heading>
-                  <Text color={colors.text} fontFamily={fonts.body} fontSize="lg" mb={1}>
+                  <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} mb={1}>
                     {resume.basicInfo.jobTitle}
                   </Text>
                 </Box>
@@ -78,22 +80,22 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
                 <VStack align="stretch" spacing={2}>
                   {resume.basicInfo.location && (
                     <HStack spacing={2} align="flex-start">
-                      <Text color={colors.secondary} fontSize="md">📍</Text>
-                      <Text color={colors.text} fontFamily={fonts.body} wordBreak="break-word">
+                      <Text color={colors.secondary} fontSize={fontSize?.secondary}>📍</Text>
+                      <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
                         {resume.basicInfo.location}
                       </Text>
                     </HStack>
                   )}
                   <HStack spacing={2} align="flex-start">
-                    <Text color={colors.secondary} fontSize="md">📧</Text>
-                    <Text color={colors.text} fontFamily={fonts.body} wordBreak="break-word">
+                    <Text color={colors.secondary} fontSize={fontSize?.secondary}>📧</Text>
+                    <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
                       {resume.basicInfo.email}
                     </Text>
                   </HStack>
                   {resume.basicInfo.phone && (
                     <HStack spacing={2} align="flex-start">
-                      <Text color={colors.secondary} fontSize="md">📱</Text>
-                      <Text color={colors.text} fontFamily={fonts.body} wordBreak="break-word">
+                      <Text color={colors.secondary} fontSize={fontSize?.secondary}>📱</Text>
+                      <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
                         {resume.basicInfo.phone}
                       </Text>
                     </HStack>
@@ -103,24 +105,24 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
                 <VStack align="stretch" spacing={2}>
                   {resume.basicInfo.website && (
                     <HStack spacing={2} align="flex-start">
-                      <Text color={colors.secondary} fontSize="sm">🌐</Text>
-                      <Text color={colors.text} fontFamily={fonts.body} fontSize="sm" wordBreak="break-word">
+                      <Text color={colors.secondary} fontSize={fontSize?.secondary}>🌐</Text>
+                      <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
                         {resume.basicInfo.website}
                       </Text>
                     </HStack>
                   )}
                   {resume.basicInfo.github && (
                     <HStack spacing={2} align="flex-start">
-                      <Text color={colors.secondary} fontSize="sm">🔗</Text>
-                      <Text color={colors.text} fontFamily={fonts.body} fontSize="sm" wordBreak="break-word">
+                      <Text color={colors.secondary} fontSize={fontSize?.secondary}>🔗</Text>
+                      <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
                         {resume.basicInfo.github}
                       </Text>
                     </HStack>
                   )}
                   {resume.basicInfo.blog && (
                     <HStack spacing={2} align="flex-start">
-                      <Text color={colors.secondary} fontSize="sm">📝</Text>
-                      <Text color={colors.text} fontFamily={fonts.body} fontSize="sm" wordBreak="break-word">
+                      <Text color={colors.secondary} fontSize={fontSize?.secondary}>📝</Text>
+                      <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
                         {resume.basicInfo.blog}
                       </Text>
                     </HStack>
@@ -132,11 +134,11 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
 
           {/* Additional Info */}
           {resume.sections
-            .filter(section => section.visible && section.type === 'additional')
-            .map(section => {
+            .filter((section: ResumeSection) => section.visible && section.type === 'additional')
+            .map((section: ResumeSection) => {
               const sectionContent = renderSection(section, props)
               return sectionContent ? (
-                <Box key={section.id} className="page-break-inside-avoid" {...getSectionStyle()} mb={4}>
+                <Box key={section.id} {...getSectionStyle()}>
                   {sectionContent}
                 </Box>
               ) : null
@@ -145,15 +147,15 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
       </Box>
 
       {/* Right column - All other sections except additional */}
-      <Box width="70%" className="page-break-inside-avoid">
+      <Box width="70%" data-right-column>
         <VStack spacing={spacing.section} align="stretch">
           {resume.sections
-            .filter(section => section.visible && section.type !== 'additional')
-            .sort((a, b) => a.order - b.order)
-            .map(section => {
+            .filter((section: ResumeSection) => section.visible && section.type !== 'additional')
+            .sort((a: ResumeSection, b: ResumeSection) => a.order - b.order)
+            .map((section: ResumeSection) => {
               const sectionContent = renderSection(section, props)
               return sectionContent ? (
-                <Box key={section.id} className="page-break-inside-avoid" {...getSectionStyle()} mb={4}>
+                <Box key={section.id} {...getSectionStyle()}>
                   {sectionContent}
                 </Box>
               ) : null

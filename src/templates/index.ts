@@ -228,17 +228,6 @@ const timeline: TemplateConfig = {
   }
 }
 
-const defaultFontSize = {
-  heading: {
-    title: '28px',
-    section: '20px'
-  },
-  body: {
-    normal: '16px',
-    small: '14px'
-  }
-}
-
 export const templates: Record<string, ResumeTemplate> = {
   professional: {
     name: professional.name,
@@ -247,7 +236,11 @@ export const templates: Record<string, ResumeTemplate> = {
     defaultConfig: {
       colors: professional.colors,
       fonts: professional.fonts,
-      fontSize: defaultFontSize,
+      fontSize: {
+        heading: '24px',
+        body: '14px',
+        secondary: '12px'
+      },
       spacing: {
         section: `${professional.spacing.section * 0.25}rem`,
         item: `${professional.spacing.item * 0.25}rem`
@@ -266,7 +259,11 @@ export const templates: Record<string, ResumeTemplate> = {
     defaultConfig: {
       colors: modern.colors,
       fonts: modern.fonts,
-      fontSize: defaultFontSize,
+      fontSize: {
+        heading: '24px',
+        body: '14px',
+        secondary: '12px'
+      },
       spacing: {
         section: `${modern.spacing.section * 0.25}rem`,
         item: `${modern.spacing.item * 0.25}rem`
@@ -285,7 +282,11 @@ export const templates: Record<string, ResumeTemplate> = {
     defaultConfig: {
       colors: minimal.colors,
       fonts: minimal.fonts,
-      fontSize: defaultFontSize,
+      fontSize: {
+        heading: '24px',
+        body: '14px',
+        secondary: '12px'
+      },
       spacing: {
         section: `${minimal.spacing.section * 0.25}rem`,
         item: `${minimal.spacing.item * 0.25}rem`
@@ -304,7 +305,11 @@ export const templates: Record<string, ResumeTemplate> = {
     defaultConfig: {
       colors: creative.colors,
       fonts: creative.fonts,
-      fontSize: defaultFontSize,
+      fontSize: {
+        heading: '24px',
+        body: '14px',
+        secondary: '12px'
+      },
       spacing: {
         section: `${creative.spacing.section * 0.25}rem`,
         item: `${creative.spacing.item * 0.25}rem`
@@ -323,7 +328,11 @@ export const templates: Record<string, ResumeTemplate> = {
     defaultConfig: {
       colors: compact.colors,
       fonts: compact.fonts,
-      fontSize: defaultFontSize,
+      fontSize: {
+        heading: '24px',
+        body: '14px',
+        secondary: '12px'
+      },
       spacing: {
         section: `${compact.spacing.section * 0.25}rem`,
         item: `${compact.spacing.item * 0.25}rem`
@@ -342,7 +351,11 @@ export const templates: Record<string, ResumeTemplate> = {
     defaultConfig: {
       colors: elegant.colors,
       fonts: elegant.fonts,
-      fontSize: defaultFontSize,
+      fontSize: {
+        heading: '24px',
+        body: '14px',
+        secondary: '12px'
+      },
       spacing: {
         section: `${elegant.spacing.section * 0.25}rem`,
         item: `${elegant.spacing.item * 0.25}rem`
@@ -361,7 +374,11 @@ export const templates: Record<string, ResumeTemplate> = {
     defaultConfig: {
       colors: twoColumn.colors,
       fonts: twoColumn.fonts,
-      fontSize: defaultFontSize,
+      fontSize: {
+        heading: '24px',
+        body: '14px',
+        secondary: '12px'
+      },
       spacing: {
         section: `${twoColumn.spacing.section * 0.25}rem`,
         item: `${twoColumn.spacing.item * 0.25}rem`
@@ -380,7 +397,11 @@ export const templates: Record<string, ResumeTemplate> = {
     defaultConfig: {
       colors: timeline.colors,
       fonts: timeline.fonts,
-      fontSize: defaultFontSize,
+      fontSize: {
+        heading: '24px',
+        body: '14px',
+        secondary: '12px'
+      },
       spacing: {
         section: `${timeline.spacing.section}rem`,
         item: `${timeline.spacing.item}rem`

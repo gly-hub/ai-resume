@@ -12,15 +12,10 @@ export interface TemplateProps {
     heading: string
     body: string
   }
-  fontSize: {
-    heading: {
-      title: string
-      section: string
-    }
-    body: {
-      normal: string
-      small: string
-    }
+  fontSize?: {
+    heading: string
+    body: string
+    secondary: string
   }
   spacing: {
     section: string
@@ -48,7 +43,11 @@ export interface ResumeTemplate {
   defaultConfig: {
     colors: TemplateProps['colors']
     fonts: TemplateProps['fonts']
-    spacing: TemplateProps['spacing']
+    fontSize?: TemplateProps['fontSize']
+    spacing: {
+      section: string
+      item: string
+    }
     layout: TemplateProps['layout']
   }
   thumbnail: string

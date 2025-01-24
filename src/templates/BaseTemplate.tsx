@@ -3,7 +3,7 @@ import { FaGithub, FaGlobe, FaBlog } from 'react-icons/fa'
 import { TemplateProps } from '../types/template'
 import { ResumeSection, Education, Project, Skill, WorkExperience } from '../types'
 
-export const renderLinks = (resume: TemplateProps['resume']) => {
+export const renderLinks = (resume: TemplateProps['resume'], fontSize: TemplateProps['fontSize']) => {
   const { basicInfo } = resume
   const links = []
 
@@ -11,7 +11,7 @@ export const renderLinks = (resume: TemplateProps['resume']) => {
     links.push(
       <HStack key="website" spacing={2}>
         <FaGlobe />
-        <Text>{basicInfo.website}</Text>
+        <Text fontSize={fontSize?.body}>{basicInfo.website}</Text>
       </HStack>
     )
   }
@@ -20,7 +20,7 @@ export const renderLinks = (resume: TemplateProps['resume']) => {
     links.push(
       <HStack key="github" spacing={2}>
         <FaGithub />
-        <Text>{basicInfo.github}</Text>
+        <Text fontSize={fontSize?.body}>{basicInfo.github}</Text>
       </HStack>
     )
   }
@@ -29,7 +29,7 @@ export const renderLinks = (resume: TemplateProps['resume']) => {
     links.push(
       <HStack key="blog" spacing={2}>
         <FaBlog />
-        <Text>{basicInfo.blog}</Text>
+        <Text fontSize={fontSize?.body}>{basicInfo.blog}</Text>
       </HStack>
     )
   }
@@ -38,7 +38,8 @@ export const renderLinks = (resume: TemplateProps['resume']) => {
 }
 
 export const renderSection = (section: ResumeSection, props: TemplateProps) => {
-  const { resume, colors } = props
+  const { resume, colors, fontSize } = props
+  console.log('Rendering section with fontSize:', fontSize)
   if (!section.visible) return null
 
   const content = (() => {
@@ -49,16 +50,16 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
             {resume.education.map((edu: Education, index: number) => (
               <Box key={edu.id || index}>
                 <HStack justify="space-between" mb={2}>
-                  <Text fontWeight="bold" fontSize="lg">{edu.school}</Text>
-                  <Text color={colors.secondary}>{`${edu.startDate} - ${edu.endDate}`}</Text>
+                  <Text fontWeight="bold" fontSize={fontSize?.heading}>{edu.school}</Text>
+                  <Text color={colors.secondary} fontSize={fontSize?.secondary}>{`${edu.startDate} - ${edu.endDate}`}</Text>
                 </HStack>
-                <Text fontSize="md" mb={1}>{edu.degree} · {edu.major}</Text>
-                {edu.gpa && <Text color={colors.secondary}>GPA: {edu.gpa}</Text>}
+                <Text fontSize={fontSize?.body} mb={1}>{edu.degree} · {edu.major}</Text>
+                {edu.gpa && <Text color={colors.secondary} fontSize={fontSize?.secondary}>GPA: {edu.gpa}</Text>}
                 {edu.courses?.length > 0 && (
-                  <Text color={colors.secondary}>主修课程：{edu.courses.join('、')}</Text>
+                  <Text color={colors.secondary} fontSize={fontSize?.secondary}>主修课程：{edu.courses.join('、')}</Text>
                 )}
                 {edu.awards?.length > 0 && (
-                  <Text color={colors.secondary}>获奖情况：{edu.awards.join('、')}</Text>
+                  <Text color={colors.secondary} fontSize={fontSize?.secondary}>获奖情况：{edu.awards.join('、')}</Text>
                 )}
               </Box>
             ))}
@@ -71,19 +72,19 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
             {resume.experience.map((exp: WorkExperience, index: number) => (
               <Box key={exp.id || index}>
                 <HStack justify="space-between" mb={2}>
-                  <Text fontWeight="bold" fontSize="lg">{exp.company}</Text>
-                  <Text color={colors.secondary}>{`${exp.startDate} - ${exp.endDate}`}</Text>
+                  <Text fontWeight="bold" fontSize={fontSize?.heading}>{exp.company}</Text>
+                  <Text color={colors.secondary} fontSize={fontSize?.secondary}>{`${exp.startDate} - ${exp.endDate}`}</Text>
                 </HStack>
-                <Text fontSize="md" mb={2}>{exp.position}</Text>
+                <Text fontSize={fontSize?.body} mb={2}>{exp.position}</Text>
                 {exp.description?.length > 0 && (
                   <UnorderedList spacing={1}>
                     {exp.description.map((desc: string, i: number) => (
-                      <ListItem key={i}>{desc}</ListItem>
+                      <ListItem key={i} fontSize={fontSize?.body}>{desc}</ListItem>
                     ))}
                   </UnorderedList>
                 )}
                 {exp.technologies?.length > 0 && (
-                  <Text mt={2} color={colors.secondary}>技术栈：{exp.technologies.join('、')}</Text>
+                  <Text mt={2} color={colors.secondary} fontSize={fontSize?.secondary}>技术栈：{exp.technologies.join('、')}</Text>
                 )}
               </Box>
             ))}
@@ -96,26 +97,26 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
             {resume.projects.map((proj: Project, index: number) => (
               <Box key={proj.id || index}>
                 <HStack justify="space-between" mb={2}>
-                  <Text fontWeight="bold" fontSize="lg">{proj.name}</Text>
-                  <Text color={colors.secondary}>{`${proj.startDate} - ${proj.endDate}`}</Text>
+                  <Text fontWeight="bold" fontSize={fontSize?.heading}>{proj.name}</Text>
+                  <Text color={colors.secondary} fontSize={fontSize?.secondary}>{`${proj.startDate} - ${proj.endDate}`}</Text>
                 </HStack>
-                <Text fontSize="md" mb={2}>{proj.role}</Text>
+                <Text fontSize={fontSize?.body} mb={2}>{proj.role}</Text>
                 {proj.description?.length > 0 && (
                   <UnorderedList spacing={1}>
                     {proj.description.map((desc: string, i: number) => (
-                      <ListItem key={i}>{desc}</ListItem>
+                      <ListItem key={i} fontSize={fontSize?.body}>{desc}</ListItem>
                     ))}
                   </UnorderedList>
                 )}
                 {proj.highlights?.length > 0 && (
                   <UnorderedList spacing={1} mt={2}>
                     {proj.highlights.map((highlight: string, i: number) => (
-                      <ListItem key={i}>{highlight}</ListItem>
+                      <ListItem key={i} fontSize={fontSize?.body}>{highlight}</ListItem>
                     ))}
                   </UnorderedList>
                 )}
                 {proj.technologies?.length > 0 && (
-                  <Text mt={2} color={colors.secondary}>技术栈：{proj.technologies.join('、')}</Text>
+                  <Text mt={2} color={colors.secondary} fontSize={fontSize?.secondary}>技术栈：{proj.technologies.join('、')}</Text>
                 )}
               </Box>
             ))}
@@ -127,8 +128,8 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
           <VStack align="stretch" spacing={3} data-section="skills">
             {resume.skills.map((skill: Skill, index: number) => (
               <Box key={skill.id || index}>
-                <Text fontWeight="bold" mb={1}>{skill.category}</Text>
-                <Text color={colors.secondary}>{skill.items.join('、')}</Text>
+                <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>{skill.category}</Text>
+                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{skill.items.join('、')}</Text>
               </Box>
             ))}
           </VStack>
@@ -141,32 +142,32 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
           <VStack align="stretch" spacing={3} data-section="additional">
             {languages?.length > 0 && (
               <Box>
-                <Text fontWeight="bold" mb={1}>语言能力</Text>
-                <Text color={colors.secondary}>{languages.join('、')}</Text>
+                <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>语言能力</Text>
+                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{languages.join('、')}</Text>
               </Box>
             )}
             {certifications?.length > 0 && (
               <Box>
-                <Text fontWeight="bold" mb={1}>专业认证</Text>
-                <Text color={colors.secondary}>{certifications.join('、')}</Text>
+                <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>专业认证</Text>
+                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{certifications.join('、')}</Text>
               </Box>
             )}
             {talks?.length > 0 && (
               <Box>
-                <Text fontWeight="bold" mb={1}>技术分享</Text>
-                <Text color={colors.secondary}>{talks.join('、')}</Text>
+                <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>技术分享</Text>
+                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{talks.join('、')}</Text>
               </Box>
             )}
             {publications?.length > 0 && (
               <Box>
-                <Text fontWeight="bold" mb={1}>出版物</Text>
-                <Text color={colors.secondary}>{publications.join('、')}</Text>
+                <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>出版物</Text>
+                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{publications.join('、')}</Text>
               </Box>
             )}
             {openSource?.length > 0 && (
               <Box>
-                <Text fontWeight="bold" mb={1}>开源贡献</Text>
-                <Text color={colors.secondary}>{openSource.join('、')}</Text>
+                <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>开源贡献</Text>
+                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{openSource.join('、')}</Text>
               </Box>
             )}
           </VStack>
@@ -179,13 +180,19 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
 
   return (
     <Box data-page-section>
-      <Box data-page-header py={6}>
-        <Heading as="h2" size="md" color={colors.primary} mb={3}>
+      <Box 
+        data-page-header 
+        py={3} 
+        className="page-break-inside-avoid"
+      >
+        <Heading as="h2" size="md" color={colors.primary} fontSize={fontSize?.heading} mb={2}>
           {section.name}
         </Heading>
-        <Box borderBottom={`2px solid ${colors.primary}`} mb={4} />
+        <Box borderBottom={`2px solid ${colors.primary}`} mb={3} />
       </Box>
-      {content}
+      <Box>
+        {content}
+      </Box>
     </Box>
   )
 } 

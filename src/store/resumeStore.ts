@@ -55,7 +55,14 @@ const initialResume: Resume = {
   ],
   language: 'zh',
   template: 'professional',
-  templateConfig: templates.professional
+  templateConfig: {
+    ...templates.professional.defaultConfig,
+    fontSize: {
+      heading: '24px',
+      body: '14px',
+      secondary: '12px'
+    }
+  }
 }
 
 export const useResumeStore = create<ResumeStore>((set) => ({
@@ -145,17 +152,30 @@ export const useResumeStore = create<ResumeStore>((set) => ({
         sections
       }
     })),
-  updateTemplate: (template, config) =>
+  updateTemplate: (template, config) => {
+    console.log('Updating template:', template, config)
+    set((state) => {
+      const currentSpacing = state.resume.templateConfig.spacing
+      const newState = {
+        resume: {
+          ...state.resume,
+          template,
+          templateConfig: {
+            ...config,
+            spacing: currentSpacing
+          }
+        }
+      }
+      console.log('New state:', newState)
+      return newState
+    })
+  },
+  updateResume: (resumeData) =>
     set((state) => ({
       resume: {
         ...state.resume,
-        template,
-        templateConfig: config
+        ...resumeData
       }
-    })),
-  updateResume: (resumeData) =>
-    set((state) => ({
-      resume: { ...state.resume, ...resumeData }
     })),
   loadSample: () => set({ resume: sampleResume })
 })) 
