@@ -17,7 +17,6 @@ export interface TemplateProps {
     body: string
     secondary: string
   }
-  avatarSize?: string
   spacing: {
     section: string
     item: string

@@ -112,4 +112,9 @@ export interface Resume {
   language: 'zh' | 'en'
   template: TemplateType
   templateConfig: TemplateConfig
+}
+
+export interface Message {
+  role: 'user' | 'assistant';
+  content: string;
 } 

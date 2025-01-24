@@ -22,6 +22,7 @@ import { SkillsForm } from './SkillsForm'
 import { AdditionalForm } from './AdditionalForm'
 import { SectionSorter } from './SectionSorter'
 import { TemplateSelector } from './TemplateSelector'
+import AIChat from './AIChat'
 import { FaFileImport } from 'react-icons/fa'
 import { IconButton } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
@@ -82,6 +83,13 @@ export function Editor() {
           >
             模板选择
           </Tab>
+          <Tab 
+            justifyContent="flex-start" 
+            pl={4}
+            _selected={{ bg: 'white', borderRadius: 'md' }}
+          >
+            AI 助手
+          </Tab>
         </TabList>
 
         <IconButton
@@ -140,6 +148,12 @@ export function Editor() {
           <TabPanel>
             <Box p={4}>
               <TemplateSelector />
+            </Box>
+          </TabPanel>
+
+          <TabPanel>
+            <Box p={4}>
+              <AIChat />
             </Box>
           </TabPanel>
         </TabPanels>

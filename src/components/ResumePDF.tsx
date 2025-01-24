@@ -191,7 +191,6 @@ export function ResumePDF() {
             fontSize={resume.templateConfig.fontSize}
             spacing={resume.templateConfig.spacing}
             layout={resume.templateConfig.layout}
-            avatarSize={resume.templateConfig.avatarSize}
           />
         </Box>
       </Box>
