@@ -66,6 +66,15 @@ export function SectionSorter() {
     updateTemplate(resume.template, newConfig)
   }, [resume.template, resume.templateConfig, updateTemplate])
 
+  const handleAvatarSizeChange = useCallback((value: number) => {
+    const newConfig = {
+      ...resume.templateConfig,
+      avatarSize: `${value}px`
+    }
+    console.log('Updating avatar size:', value, newConfig)
+    updateTemplate(resume.template, newConfig)
+  }, [resume.template, resume.templateConfig, updateTemplate])
+
   const sortedSections = [...resume.sections].sort((a, b) => a.order - b.order)
 
   return (
@@ -121,6 +130,23 @@ export function SectionSorter() {
               </SliderTrack>
               <SliderThumb boxSize={6}>
                 <Text fontSize="xs">{parseInt(resume.templateConfig.fontSize?.secondary || '12')}</Text>
+              </SliderThumb>
+            </Slider>
+          </Box>
+          <Box>
+            <Text mb={2}>头像大小</Text>
+            <Slider
+              value={parseInt(resume.templateConfig.avatarSize || '100')}
+              min={60}
+              max={200}
+              step={10}
+              onChange={handleAvatarSizeChange}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb boxSize={6}>
+                <Text fontSize="xs">{parseInt(resume.templateConfig.avatarSize || '100')}</Text>
               </SliderThumb>
             </Slider>
           </Box>

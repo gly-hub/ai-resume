@@ -75,6 +75,12 @@ export interface TemplateConfig {
     heading: string
     body: string
   }
+  fontSize?: {
+    heading: string
+    body: string
+    secondary: string
+  }
+  avatarSize: string
   spacing: {
     section: number
     item: number

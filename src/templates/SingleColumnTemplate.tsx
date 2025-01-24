@@ -6,7 +6,7 @@ export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
   const { resume, colors, spacing, layout, fonts, fontSize } = props
 
   const getAvatarStyle = () => {
-    const size = '100px'
+    const size = props.avatarSize || '100px'
     switch (layout.avatarStyle) {
       case 'square':
         return { borderRadius: '0', boxSize: size }

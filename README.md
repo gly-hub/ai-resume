@@ -1,50 +1,104 @@
-# React + TypeScript + Vite
+# OpenResume
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个开源的在线简历制作工具，帮助用户快速创建专业的简历。
 
-Currently, two official plugins are available:
+## ✨ 特点
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎨 多种精美模板
+- 📱 响应式设计
+- 🖨 PDF 导出
+- 🎯 实时预览
+- 🔧 简单易用
+- 💾 本地存储
+- 🌈 主题定制
+- 📊 模块化设计
 
-## Expanding the ESLint configuration
+## 🛠 技术栈
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React
+- TypeScript
+- Chakra UI
+- Zustand
+- React-to-PDF
 
-- Configure the top-level `parserOptions` property like this:
+## 🚀 快速开始
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 环境要求
+
+- Node.js >= 14
+- npm >= 6
+
+### 安装
+
+```bash
+# 克隆项目
+git clone https://github.com/yourusername/OpenResume.git
+
+# 进入项目目录
+cd OpenResume
+
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 📝 功能列表
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- 基本信息管理
+  - 个人信息
+  - 联系方式
+  - 社交链接
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- 简历内容编辑
+  - 教育经历
+  - 工作经验
+  - 项目经历
+  - 技能清单
+  - 其他信息
+
+- 模板系统
+  - 单栏布局
+  - 双栏布局
+  - 时间轴风格
+  - 更多模板持续添加中...
+
+- 样式定制
+  - 字体设置
+  - 颜色主题
+  - 间距调整
+  - 布局选项
+
+- 导出功能
+  - PDF 导出
+  - 打印优化
+
+## 🤝 贡献指南
+
+欢迎提交 Pull Request 或 Issue！
+
+1. Fork 本项目
+2. 创建你的特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交你的改动 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开一个 Pull Request
+
+## 📄 开源协议
+
+本项目基于 MIT 协议开源。
+
+## 🙏 致谢
+
+感谢所有贡献者的付出！
+
+## 📧 联系方式
+
+如有问题或建议，欢迎联系我们：
+
+- 项目主页：[GitHub](https://github.com/yourusername/OpenResume)
+- 问题反馈：[Issues](https://github.com/yourusername/OpenResume/issues)
+
+##  预览
+
+[这里可以添加项目截图]

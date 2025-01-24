@@ -5,9 +5,9 @@ import { ResumeSection } from '../types'
 
 export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
   const { resume, colors, spacing, layout, fonts, fontSize } = props
-
+  
   const getAvatarStyle = () => {
-    const size = '150px'
+    const size = props.avatarSize || '150px'
     switch (layout.avatarStyle) {
       case 'square':
         return { borderRadius: '0', boxSize: size }

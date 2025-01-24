@@ -241,14 +241,12 @@ export const templates: Record<string, ResumeTemplate> = {
         body: '14px',
         secondary: '12px'
       },
+      avatarSize: '100px',
       spacing: {
         section: `${professional.spacing.section * 0.25}rem`,
         item: `${professional.spacing.item * 0.25}rem`
       },
-      layout: {
-        ...professional.layout,
-        sectionStyle: professional.layout.sectionStyle as 'line' | 'boxed' | 'plain'
-      }
+      layout: professional.layout
     },
     thumbnail: professional.preview
   },
@@ -264,6 +262,7 @@ export const templates: Record<string, ResumeTemplate> = {
         body: '14px',
         secondary: '12px'
       },
+      avatarSize: '100px',
       spacing: {
         section: `${modern.spacing.section * 0.25}rem`,
         item: `${modern.spacing.item * 0.25}rem`
@@ -287,6 +286,7 @@ export const templates: Record<string, ResumeTemplate> = {
         body: '14px',
         secondary: '12px'
       },
+      avatarSize: '100px',
       spacing: {
         section: `${minimal.spacing.section * 0.25}rem`,
         item: `${minimal.spacing.item * 0.25}rem`
@@ -310,21 +310,19 @@ export const templates: Record<string, ResumeTemplate> = {
         body: '14px',
         secondary: '12px'
       },
+      avatarSize: '100px',
       spacing: {
         section: `${creative.spacing.section * 0.25}rem`,
         item: `${creative.spacing.item * 0.25}rem`
       },
-      layout: {
-        ...creative.layout,
-        sectionStyle: creative.layout.sectionStyle as 'line' | 'boxed' | 'plain'
-      }
+      layout: creative.layout
     },
     thumbnail: creative.preview
   },
   compact: {
     name: compact.name,
     description: compact.description,
-    component: twoColumnConfig.component,
+    component: singleColumnConfig.component,
     defaultConfig: {
       colors: compact.colors,
       fonts: compact.fonts,
@@ -333,21 +331,19 @@ export const templates: Record<string, ResumeTemplate> = {
         body: '14px',
         secondary: '12px'
       },
+      avatarSize: '100px',
       spacing: {
         section: `${compact.spacing.section * 0.25}rem`,
         item: `${compact.spacing.item * 0.25}rem`
       },
-      layout: {
-        ...compact.layout,
-        sectionStyle: compact.layout.sectionStyle as 'line' | 'boxed' | 'plain'
-      }
+      layout: compact.layout
     },
     thumbnail: compact.preview
   },
   elegant: {
     name: elegant.name,
     description: elegant.description,
-    component: singleColumnConfig.component,
+    component: twoColumnConfig.component,
     defaultConfig: {
       colors: elegant.colors,
       fonts: elegant.fonts,
@@ -356,14 +352,12 @@ export const templates: Record<string, ResumeTemplate> = {
         body: '14px',
         secondary: '12px'
       },
+      avatarSize: '100px',
       spacing: {
         section: `${elegant.spacing.section * 0.25}rem`,
         item: `${elegant.spacing.item * 0.25}rem`
       },
-      layout: {
-        ...elegant.layout,
-        sectionStyle: 'plain' as const
-      }
+      layout: elegant.layout
     },
     thumbnail: elegant.preview
   },
@@ -379,14 +373,12 @@ export const templates: Record<string, ResumeTemplate> = {
         body: '14px',
         secondary: '12px'
       },
+      avatarSize: '100px',
       spacing: {
         section: `${twoColumn.spacing.section * 0.25}rem`,
         item: `${twoColumn.spacing.item * 0.25}rem`
       },
-      layout: {
-        ...twoColumn.layout,
-        sectionStyle: 'plain' as const
-      }
+      layout: twoColumn.layout
     },
     thumbnail: twoColumn.preview
   },
@@ -402,9 +394,10 @@ export const templates: Record<string, ResumeTemplate> = {
         body: '14px',
         secondary: '12px'
       },
+      avatarSize: '120px',
       spacing: {
-        section: `${timeline.spacing.section}rem`,
-        item: `${timeline.spacing.item}rem`
+        section: `${timeline.spacing.section * 0.25}rem`,
+        item: `${timeline.spacing.item * 0.25}rem`
       },
       layout: {
         ...timeline.layout,

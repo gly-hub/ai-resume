@@ -155,14 +155,13 @@ export const useResumeStore = create<ResumeStore>((set) => ({
   updateTemplate: (template, config) => {
     console.log('Updating template:', template, config)
     set((state) => {
-      const currentSpacing = state.resume.templateConfig.spacing
       const newState = {
         resume: {
           ...state.resume,
           template,
           templateConfig: {
-            ...config,
-            spacing: currentSpacing
+            ...state.resume.templateConfig,
+            ...config
           }
         }
       }

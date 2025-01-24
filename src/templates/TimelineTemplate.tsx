@@ -8,7 +8,7 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
   const { resume, colors, layout, fonts, fontSize } = props
 
   const getAvatarStyle = () => {
-    const size = '120px'
+    const size = props.avatarSize || '120px'
     switch (layout.avatarStyle) {
       case 'square':
         return { borderRadius: '0', boxSize: size }
