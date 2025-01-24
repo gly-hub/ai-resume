@@ -37,7 +37,7 @@ export const renderLinks = (resume: TemplateProps['resume'], fontSize: TemplateP
   return links
 }
 
-export const renderSection = (section: ResumeSection, props: TemplateProps) => {
+export const renderSection = (section: ResumeSection, props: TemplateProps, options?: { hideTitle?: boolean }) => {
   const { resume, colors, fontSize } = props
   console.log('Rendering section with fontSize:', fontSize)
   if (!section.visible) return null
@@ -180,16 +180,18 @@ export const renderSection = (section: ResumeSection, props: TemplateProps) => {
 
   return (
     <Box data-page-section>
-      <Box 
-        data-page-header 
-        py={3} 
-        className="page-break-inside-avoid"
-      >
-        <Heading as="h2" size="md" color={colors.primary} fontSize={fontSize?.heading} mb={2}>
-          {section.name}
-        </Heading>
-        <Box borderBottom={`2px solid ${colors.primary}`} mb={3} />
-      </Box>
+      {!options?.hideTitle && (
+        <Box 
+          data-page-header 
+          py={3} 
+          className="page-break-inside-avoid"
+        >
+          <Heading as="h2" size="md" color={colors.primary} fontSize={fontSize?.heading} mb={2}>
+            {section.name}
+          </Heading>
+          <Box borderBottom={`2px solid ${colors.primary}`} mb={3} />
+        </Box>
+      )}
       <Box>
         {content}
       </Box>

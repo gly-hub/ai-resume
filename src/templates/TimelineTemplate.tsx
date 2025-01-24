@@ -2,9 +2,10 @@ import { Box, VStack, HStack, Grid, GridItem, Image, Heading, Text, Icon } from 
 import { TemplateProps } from '../types/template'
 import { FaGraduationCap, FaBriefcase, FaTools, FaMedal, FaUser } from 'react-icons/fa'
 import { renderSection } from './BaseTemplate'
+import { ResumeSection } from '../types'
 
 export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
-  const { resume, colors, spacing, layout, fonts } = props
+  const { resume, colors, layout, fonts, fontSize } = props
 
   const getAvatarStyle = () => {
     const size = '120px'
@@ -39,10 +40,17 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
       <Box bg={colors.primary} color="white" p={6} borderRadius="lg">
         <HStack justify="space-between" align="flex-start">
           <VStack align="flex-start" spacing={4}>
-            <Heading size="2xl" fontFamily={fonts.heading}>
+            <Heading 
+              size="2xl" 
+              fontFamily={fonts.heading}
+              fontSize={fontSize?.heading}
+            >
               {resume.basicInfo.name}
             </Heading>
-            <Text fontSize="xl" fontFamily={fonts.body}>
+            <Text 
+              fontSize={fontSize?.body}
+              fontFamily={fonts.body}
+            >
               {resume.basicInfo.jobTitle}
             </Text>
           </VStack>
@@ -66,28 +74,28 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
           <GridItem>
             <VStack align="stretch" spacing={3}>
               <HStack>
-                <Text fontWeight="bold" width="80px">年龄：</Text>
-                <Text>25岁</Text>
+                <Text fontWeight="bold" width="80px" fontSize={fontSize?.body}>年龄：</Text>
+                <Text fontSize={fontSize?.body}>25岁</Text>
               </HStack>
               <HStack>
-                <Text fontWeight="bold" width="80px">籍贯：</Text>
-                <Text>{resume.basicInfo.location}</Text>
+                <Text fontWeight="bold" width="80px" fontSize={fontSize?.body}>籍贯：</Text>
+                <Text fontSize={fontSize?.body}>{resume.basicInfo.location}</Text>
               </HStack>
               <HStack>
-                <Text fontWeight="bold" width="80px">电话：</Text>
-                <Text>{resume.basicInfo.phone}</Text>
+                <Text fontWeight="bold" width="80px" fontSize={fontSize?.body}>电话：</Text>
+                <Text fontSize={fontSize?.body}>{resume.basicInfo.phone}</Text>
               </HStack>
             </VStack>
           </GridItem>
           <GridItem>
             <VStack align="stretch" spacing={3}>
               <HStack>
-                <Text fontWeight="bold" width="80px">性别：</Text>
-                <Text>男</Text>
+                <Text fontWeight="bold" width="80px" fontSize={fontSize?.body}>性别：</Text>
+                <Text fontSize={fontSize?.body}>男</Text>
               </HStack>
               <HStack>
-                <Text fontWeight="bold" width="80px">邮箱：</Text>
-                <Text>{resume.basicInfo.email}</Text>
+                <Text fontWeight="bold" width="80px" fontSize={fontSize?.body}>邮箱：</Text>
+                <Text fontSize={fontSize?.body}>{resume.basicInfo.email}</Text>
               </HStack>
             </VStack>
           </GridItem>
@@ -97,9 +105,9 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
       {/* 主体内容区 */}
       <VStack spacing={6} align="stretch">
         {resume.sections
-          .filter(section => section.visible)
-          .sort((a, b) => a.order - b.order)
-          .map(section => (
+          .filter((section: ResumeSection) => section.visible)
+          .sort((a: ResumeSection, b: ResumeSection) => a.order - b.order)
+          .map((section: ResumeSection) => (
             <Box key={section.id} position="relative">
               <HStack spacing={4} mb={4}>
                 <Box
@@ -110,7 +118,12 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
                 >
                   <Icon as={getSectionIcon(section.type)} boxSize={5} />
                 </Box>
-                <Heading size="md" color={colors.primary} fontFamily={fonts.heading}>
+                <Heading 
+                  size="md" 
+                  color={colors.primary} 
+                  fontFamily={fonts.heading}
+                  fontSize={fontSize?.heading}
+                >
                   {section.name}
                 </Heading>
               </HStack>
@@ -128,7 +141,7 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
 
               {/* 内容区 */}
               <Box pl={12}>
-                {renderSection(section, props)}
+                {renderSection(section, props, { hideTitle: true })}
               </Box>
             </Box>
           ))}
