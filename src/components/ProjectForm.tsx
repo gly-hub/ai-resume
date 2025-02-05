@@ -57,7 +57,7 @@ export const ProjectForm = () => {
 
   return (
     <VStack spacing={8} align="stretch" w="100%">
-      {projects.map((proj) => (
+      {projects?.map((proj) => (
         <Box
           key={proj.id}
           p={4}
@@ -128,7 +128,7 @@ export const ProjectForm = () => {
             <FormControl isRequired>
               <FormLabel>项目描述</FormLabel>
               <VStack align="stretch" spacing={2}>
-                {proj.description.map((item, index) => (
+                {proj.description?.map((item, index) => (
                   <HStack key={index}>
                     <Text flex={1}>{item}</Text>
                     <IconButton
@@ -155,7 +155,7 @@ export const ProjectForm = () => {
             <FormControl isRequired>
               <FormLabel>项目亮点</FormLabel>
               <VStack align="stretch" spacing={2}>
-                {proj.highlights.map((item, index) => (
+                {proj.highlights?.map((item, index) => (
                   <HStack key={index}>
                     <Text flex={1}>{item}</Text>
                     <IconButton
@@ -182,7 +182,7 @@ export const ProjectForm = () => {
             <FormControl>
               <FormLabel>技术栈</FormLabel>
               <VStack align="stretch" spacing={2}>
-                {proj.technologies.map((item, index) => (
+                {proj.technologies?.map((item, index) => (
                   <HStack key={index}>
                     <Text flex={1}>{item}</Text>
                     <IconButton

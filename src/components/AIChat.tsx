@@ -18,11 +18,17 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  HStack,
 } from '@chakra-ui/react';
-import { ChatIcon } from '@chakra-ui/icons';
+import { ChatIcon, RepeatIcon } from '@chakra-ui/icons';
 import { openAIService } from '../services/openai';
 import { useResumeStore } from '../store/resumeStore';
 import type { Message } from '../types';
+
+interface MessageWithStatus extends Message {
+  status?: 'error' | 'success';
+  isRetrying?: boolean;
+}
 
 export default function AIChat() {
   const toast = useToast();
@@ -32,7 +38,7 @@ export default function AIChat() {
     apiEndpoint: 'https://api.openai.com/v1',
     model: 'gpt-3.5-turbo',
   });
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<MessageWithStatus[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [configSaved, setConfigSaved] = useState(false);
@@ -50,7 +56,8 @@ export default function AIChat() {
         role: 'assistant',
         content: `你好！我是你的简历顾问。我会通过对话帮你创建一份专业的简历。
 
-首先，请告诉我你期望申请的职位或者职业发展方向。这样我可以更好地为你提供针对性的建议。`
+首先，请告诉我你期望申请的职位或者职业发展方向。这样我可以更好地为你提供针对性的建议。`,
+        status: 'success'
       }]);
     }
   }, []);
@@ -86,28 +93,92 @@ export default function AIChat() {
 
     if (!newMessage.trim()) return;
 
-    const userMessage: Message = {
+    const userMessage: MessageWithStatus = {
       role: 'user',
       content: newMessage,
+      status: 'success'
     };
 
-    setMessages([...messages, userMessage]);
+    setMessages(prev => [...prev, userMessage]);
     setNewMessage('');
     setLoading(true);
 
     try {
+      console.log('发送消息到 OpenAI:', {
+        endpoint: config.apiEndpoint,
+        model: config.model,
+        messages: [...messages, userMessage]
+      });
+      
       const assistantMessage = await openAIService.sendMessage([...messages, userMessage]);
-      setMessages(prev => [...prev, assistantMessage]);
+      console.log('OpenAI 响应:', assistantMessage);
+      
+      setMessages(prev => [...prev, { ...assistantMessage, status: 'success' }]);
     } catch (error) {
-      console.error('Error:', error);
+      console.error('OpenAI API 错误:', {
+        error,
+        response: error instanceof Error && 'response' in error ? (error as any).response?.data : null,
+        status: error instanceof Error && 'response' in error ? (error as any).response?.status : null
+      });
+      
+      let errorMessage = '发送消息失败，请检查配置和网络连接';
+      if (error instanceof Error) {
+        if ('response' in error && (error as any).response?.data?.error?.message) {
+          errorMessage = (error as any).response.data.error.message;
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: errorMessage,
+        status: 'error'
+      }]);
+      
       toast({
         title: '发送消息失败',
+        description: errorMessage,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRetry = async (index: number) => {
+    const messageToRetry = messages[index];
+    if (!messageToRetry || messageToRetry.role !== 'assistant' || messageToRetry.status !== 'error') return;
+
+    // 更新消息状态为重试中
+    setMessages(prev => prev.map((msg, i) => 
+      i === index ? { ...msg, isRetrying: true } : msg
+    ));
+
+    try {
+      // 获取到这条消息之前的所有消息
+      const previousMessages = messages.slice(0, index);
+      const assistantMessage = await openAIService.sendMessage(previousMessages);
+      
+      // 更新消息
+      setMessages(prev => prev.map((msg, i) => 
+        i === index ? { ...assistantMessage, status: 'success' } : msg
+      ));
+    } catch (error) {
+      console.error('Retry error:', error);
+      toast({
+        title: '重试失败',
         description: error instanceof Error ? error.message : '请检查你的配置和网络连接',
         status: 'error',
         duration: 3000,
       });
     } finally {
-      setLoading(false);
+      // 移除重试状态
+      setMessages(prev => prev.map((msg, i) => 
+        i === index ? { ...msg, isRetrying: false } : msg
+      ));
     }
   };
 
@@ -134,7 +205,15 @@ export default function AIChat() {
 
     setLoading(true);
     try {
+      console.log('生成简历，发送到 OpenAI:', {
+        endpoint: config.apiEndpoint,
+        model: config.model,
+        messagesCount: messages.length
+      });
+      
       const resumeData = await openAIService.generateResume(messages);
+      console.log('OpenAI 返回的简历数据:', resumeData);
+      
       loadFromAI(resumeData);
       toast({
         title: '简历生成成功',
@@ -143,12 +222,27 @@ export default function AIChat() {
         duration: 3000,
       });
     } catch (error) {
-      console.error('Error generating resume:', error);
+      console.error('生成简历错误:', {
+        error,
+        response: error instanceof Error && 'response' in error ? (error as any).response?.data : null,
+        status: error instanceof Error && 'response' in error ? (error as any).response?.status : null
+      });
+      
+      let errorMessage = '请检查你的配置和网络连接';
+      if (error instanceof Error) {
+        if ('response' in error && (error as any).response?.data?.error?.message) {
+          errorMessage = (error as any).response.data.error.message;
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
       toast({
         title: '生成简历失败',
-        description: error instanceof Error ? error.message : '请检查你的配置和网络连接',
+        description: errorMessage,
         status: 'error',
-        duration: 3000,
+        duration: 5000,
+        isClosable: true,
       });
     } finally {
       setLoading(false);
@@ -209,12 +303,25 @@ export default function AIChat() {
                 key={index}
                 p={3}
                 mb={3}
-                bg={message.role === 'user' ? 'blue.50' : 'gray.50'}
+                bg={message.role === 'user' ? 'blue.50' : message.status === 'error' ? 'red.50' : 'gray.50'}
                 borderRadius="md"
               >
-                <Badge mb={2} colorScheme={message.role === 'user' ? 'blue' : 'gray'}>
-                  {message.role === 'user' ? '你' : 'AI 顾问'}
-                </Badge>
+                <HStack mb={2} justify="space-between">
+                  <Badge colorScheme={message.role === 'user' ? 'blue' : message.status === 'error' ? 'red' : 'gray'}>
+                    {message.role === 'user' ? '你' : 'AI 顾问'}
+                  </Badge>
+                  {message.status === 'error' && (
+                    <Button
+                      size="xs"
+                      leftIcon={<RepeatIcon />}
+                      onClick={() => handleRetry(index)}
+                      isLoading={message.isRetrying}
+                      colorScheme="red"
+                    >
+                      重试
+                    </Button>
+                  )}
+                </HStack>
                 <Text whiteSpace="pre-wrap">{message.content}</Text>
               </Box>
             ))}

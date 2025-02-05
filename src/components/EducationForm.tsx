@@ -58,7 +58,7 @@ export const EducationForm = () => {
 
   return (
     <VStack spacing={8} align="stretch" w="100%">
-      {education.map((edu) => (
+      {education?.map((edu) => (
         <Box
           key={edu.id}
           p={4}
@@ -147,7 +147,7 @@ export const EducationForm = () => {
             <FormControl>
               <FormLabel>主修课程</FormLabel>
               <VStack align="stretch" spacing={2}>
-                {edu.courses.map((item, index) => (
+                {edu.courses?.map((item, index) => (
                   <HStack key={index}>
                     <Text flex={1}>{item}</Text>
                     <IconButton
@@ -174,7 +174,7 @@ export const EducationForm = () => {
             <FormControl>
               <FormLabel>获奖情况</FormLabel>
               <VStack align="stretch" spacing={2}>
-                {edu.awards.map((item, index) => (
+                {edu.awards?.map((item, index) => (
                   <HStack key={index}>
                     <Text flex={1}>{item}</Text>
                     <IconButton

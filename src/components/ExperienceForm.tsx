@@ -56,7 +56,7 @@ export const ExperienceForm = () => {
 
   return (
     <VStack spacing={8} align="stretch" w="100%">
-      {experience.map((exp) => (
+      {experience?.map((exp) => (
         <Box
           key={exp.id}
           p={4}
@@ -127,7 +127,7 @@ export const ExperienceForm = () => {
             <FormControl isRequired>
               <FormLabel>工作内容</FormLabel>
               <VStack align="stretch" spacing={2}>
-                {exp.description.map((item, index) => (
+                {exp.description?.map((item, index) => (
                   <HStack key={index}>
                     <Text flex={1}>{item}</Text>
                     <IconButton
@@ -154,7 +154,7 @@ export const ExperienceForm = () => {
             <FormControl>
               <FormLabel>技术栈</FormLabel>
               <VStack align="stretch" spacing={2}>
-                {exp.technologies.map((item, index) => (
+                {exp.technologies?.map((item, index) => (
                   <HStack key={index}>
                     <Text flex={1}>{item}</Text>
                     <IconButton
