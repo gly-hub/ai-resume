@@ -19,8 +19,11 @@ import {
   AlertTitle,
   AlertDescription,
   HStack,
+  Collapse,
+  useDisclosure,
+  IconButton,
 } from '@chakra-ui/react';
-import { ChatIcon, RepeatIcon } from '@chakra-ui/icons';
+import { ChatIcon, RepeatIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { openAIService } from '../services/openai';
 import { useResumeStore } from '../store/resumeStore';
 import type { Message } from '../types';
@@ -33,6 +36,7 @@ interface MessageWithStatus extends Message {
 export default function AIChat() {
   const toast = useToast();
   const loadFromAI = useResumeStore(state => state.loadFromAI);
+  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: !openAIService.getConfig() });
   const [config, setConfig] = useState(() => openAIService.getConfig() || {
     apiKey: '',
     apiEndpoint: 'https://api.openai.com/v1',
@@ -254,89 +258,128 @@ export default function AIChat() {
   };
 
   return (
-    <VStack spacing={6} align="stretch" h="full">
-      <Box as="form" onSubmit={handleConfigSubmit} p={6} borderWidth={1} borderRadius="lg" bg="white">
-        <VStack spacing={4}>
+    <Box h="100%" p={4}>
+      <Box mb={4}>
+        <HStack mb={2} justify="space-between" align="center">
           <Heading size="md">OpenAI 配置</Heading>
-          {!configSaved && (
-            <Alert status="warning">
-              <AlertIcon />
-              <Box>
-                <AlertTitle>需要配置</AlertTitle>
-                <AlertDescription>
-                  请先配置你的 OpenAI API Key 才能使用 AI 助手功能
-                </AlertDescription>
-              </Box>
-            </Alert>
-          )}
-          <FormControl isRequired>
-            <FormLabel>API Key</FormLabel>
-            <Input
-              type="password"
-              value={config.apiKey}
-              onChange={(e) => setConfig({ ...config, apiKey: e.target.value })}
-              placeholder="sk-..."
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>API Endpoint</FormLabel>
-            <Input
-              value={config.apiEndpoint}
-              onChange={(e) => setConfig({ ...config, apiEndpoint: e.target.value })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>模型</FormLabel>
-            <Input
-              placeholder="例如：gpt-3.5-turbo"
-              value={config.model}
-              onChange={(e) => setConfig({ ...config, model: e.target.value })}
-            />
-          </FormControl>
-          <Button type="submit" colorScheme="blue" isLoading={loading}>
-            保存配置
-          </Button>
-        </VStack>
+          <IconButton
+            icon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            onClick={onToggle}
+            aria-label="Toggle config"
+            size="sm"
+            variant="ghost"
+          />
+        </HStack>
+        
+        <Collapse in={isOpen}>
+          <Box as="form" onSubmit={handleConfigSubmit} p={4} borderWidth={1} borderRadius="lg" bg="white">
+            <VStack spacing={4}>
+              {!configSaved && (
+                <Alert status="warning">
+                  <AlertIcon />
+                  <Box>
+                    <AlertTitle>需要配置</AlertTitle>
+                    <AlertDescription>
+                      请先配置你的 OpenAI API Key 才能使用 AI 助手功能
+                    </AlertDescription>
+                  </Box>
+                </Alert>
+              )}
+              <FormControl isRequired>
+                <FormLabel>API Key</FormLabel>
+                <Input
+                  type="password"
+                  value={config.apiKey}
+                  onChange={(e) => setConfig({ ...config, apiKey: e.target.value })}
+                  placeholder="sk-..."
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>API Endpoint</FormLabel>
+                <Input
+                  value={config.apiEndpoint}
+                  onChange={(e) => setConfig({ ...config, apiEndpoint: e.target.value })}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>模型</FormLabel>
+                <Input
+                  placeholder="例如：gpt-3.5-turbo"
+                  value={config.model}
+                  onChange={(e) => setConfig({ ...config, model: e.target.value })}
+                />
+              </FormControl>
+              <Button type="submit" colorScheme="blue" isLoading={loading}>
+                保存配置
+              </Button>
+            </VStack>
+          </Box>
+        </Collapse>
       </Box>
 
-      <Box flex={1} borderWidth={1} borderRadius="lg" bg="white" p={6}>
-        <VStack spacing={4} h="full">
-          <Box flex={1} w="100%" overflowY="auto">
-            {messages.map((message, index) => (
-              <Box
-                key={index}
-                p={3}
-                mb={3}
-                bg={message.role === 'user' ? 'blue.50' : message.status === 'error' ? 'red.50' : 'gray.50'}
-                borderRadius="md"
-              >
-                <HStack mb={2} justify="space-between">
-                  <Badge colorScheme={message.role === 'user' ? 'blue' : message.status === 'error' ? 'red' : 'gray'}>
-                    {message.role === 'user' ? '你' : 'AI 顾问'}
-                  </Badge>
-                  {message.status === 'error' && (
-                    <Button
-                      size="xs"
-                      leftIcon={<RepeatIcon />}
-                      onClick={() => handleRetry(index)}
-                      isLoading={message.isRetrying}
-                      colorScheme="red"
-                    >
-                      重试
-                    </Button>
-                  )}
-                </HStack>
-                <Text whiteSpace="pre-wrap">{message.content}</Text>
-              </Box>
-            ))}
-            {loading && (
-              <Box display="flex" justifyContent="center" p={4}>
-                <Spinner />
-              </Box>
-            )}
-          </Box>
+      <Box 
+        borderWidth={1} 
+        borderRadius="lg" 
+        bg="white" 
+        h="600px"
+        display="flex"
+        flexDirection="column"
+      >
+        <Box 
+          flex={1}
+          overflowY="auto" 
+          p={4}
+          sx={{
+            '&::-webkit-scrollbar': {
+              width: '8px',
+              borderRadius: '8px',
+              backgroundColor: 'rgba(0, 0, 0, 0.05)',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'rgba(0, 0, 0, 0.1)',
+              borderRadius: '8px',
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              },
+            },
+          }}
+        >
+          {messages.map((message, index) => (
+            <Box
+              key={index}
+              p={3}
+              mb={3}
+              bg={message.role === 'user' ? 'blue.50' : message.status === 'error' ? 'red.50' : 'gray.50'}
+              borderRadius="md"
+            >
+              <HStack mb={2} justify="space-between">
+                <Badge colorScheme={message.role === 'user' ? 'blue' : message.status === 'error' ? 'red' : 'gray'}>
+                  {message.role === 'user' ? '你' : 'AI 顾问'}
+                </Badge>
+                {message.status === 'error' && (
+                  <Button
+                    size="xs"
+                    leftIcon={<RepeatIcon />}
+                    onClick={() => handleRetry(index)}
+                    isLoading={message.isRetrying}
+                    colorScheme="red"
+                  >
+                    重试
+                  </Button>
+                )}
+              </HStack>
+              <Text whiteSpace="pre-wrap">{message.content}</Text>
+            </Box>
+          ))}
+          {loading && (
+            <Box display="flex" justifyContent="center" p={4}>
+              <Spinner />
+            </Box>
+          )}
+        </Box>
 
-          <VStack w="100%" spacing={4}>
+        <Box p={4} borderTopWidth={1} bg="white">
+          <VStack spacing={4}>
             <Button
               colorScheme="teal"
               onClick={handleGenerateResume}
@@ -356,8 +399,10 @@ export default function AIChat() {
                   onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
                   pr="4.5rem"
                   isDisabled={!configSaved}
+                  rows={3}
+                  resize="none"
                 />
-                <InputRightElement width="4.5rem">
+                <InputRightElement width="4.5rem" h="100%">
                   <Button
                     h="1.75rem"
                     size="sm"
@@ -372,8 +417,8 @@ export default function AIChat() {
               </InputGroup>
             </Box>
           </VStack>
-        </VStack>
+        </Box>
       </Box>
-    </VStack>
+    </Box>
   );
 } 
