@@ -13,12 +13,20 @@ import {
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { useResumeStore } from '../store/resumeStore'
 import { v4 as uuidv4 } from 'uuid'
+import { useState, useEffect } from 'react'
 
 export const ProjectForm = () => {
   const projects = useResumeStore((state) => state.resume.projects)
   const addProject = useResumeStore((state) => state.addProject)
   const updateProject = useResumeStore((state) => state.updateProject)
   const deleteProject = useResumeStore((state) => state.deleteProject)
+
+  // 为每个项目创建输入状态
+  const [newInputs, setNewInputs] = useState<Record<string, {
+    description: string;
+    highlight: string;
+    technology: string;
+  }>>({});
 
   const handleAdd = () => {
     const newProject = {
@@ -32,28 +40,41 @@ export const ProjectForm = () => {
       technologies: []
     }
     addProject(newProject)
+    // 初始化新项目的输入状态
+    setNewInputs(prev => ({
+      ...prev,
+      [newProject.id]: { description: '', highlight: '', technology: '' }
+    }));
   }
 
   const handleDelete = (id: string) => {
     deleteProject(id)
+    // 清理对应的输入状态
+    setNewInputs(prev => {
+      const { [id]: removed, ...rest } = prev;
+      return rest;
+    });
   }
 
-  const handleChange = (id: string, field: string, value: string) => {
+  const handleChange = (id: string, field: string, value: string | string[]) => {
     const proj = projects.find((p) => p.id === id)
     if (proj) {
       updateProject(id, { ...proj, [field]: value })
     }
   }
 
-  const handleArrayChange = (id: string, field: string, value: string) => {
-    const proj = projects.find((p) => p.id === id)
-    if (proj) {
-      updateProject(id, {
-        ...proj,
-        [field]: value.split(/\r?\n/).filter(Boolean)
-      })
+  // 初始化已有项目的输入状态
+  useEffect(() => {
+    const initialInputs: Record<string, { description: string; highlight: string; technology: string }> = {};
+    projects.forEach(proj => {
+      if (!newInputs[proj.id]) {
+        initialInputs[proj.id] = { description: '', highlight: '', technology: '' };
+      }
+    });
+    if (Object.keys(initialInputs).length > 0) {
+      setNewInputs(prev => ({ ...prev, ...initialInputs }));
     }
-  }
+  }, [projects]);
 
   return (
     <VStack spacing={8} align="stretch" w="100%">
@@ -134,19 +155,37 @@ export const ProjectForm = () => {
                     <IconButton
                       aria-label="删除项目描述"
                       icon={<DeleteIcon />}
-                      size="md"
-                      p={2}
-                      onClick={() => handleArrayChange(proj.id, 'description', proj.description.filter((_, i) => i !== index).join('\n'))}
+                      size="sm"
+                      onClick={() => {
+                        const newDescription = [...proj.description];
+                        newDescription.splice(index, 1);
+                        handleChange(proj.id, 'description', newDescription);
+                      }}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
                     placeholder="添加项目描述，建议以动词开头，包含具体的量化指标"
-                    value={proj.description.join('\n')}
-                    onChange={(e) => handleArrayChange(proj.id, 'description', e.target.value)}
-                    resize="vertical"
-                    sx={{ whiteSpace: 'pre' }}
+                    value={newInputs[proj.id]?.description || ''}
+                    onChange={(e) => setNewInputs(prev => ({
+                      ...prev,
+                      [proj.id]: { ...prev[proj.id], description: e.target.value }
+                    }))}
+                  />
+                  <IconButton
+                    aria-label="添加项目描述"
+                    icon={<AddIcon />}
+                    onClick={() => {
+                      const descValue = newInputs[proj.id]?.description.trim();
+                      if (descValue) {
+                        handleChange(proj.id, 'description', [...proj.description, descValue]);
+                        setNewInputs(prev => ({
+                          ...prev,
+                          [proj.id]: { ...prev[proj.id], description: '' }
+                        }));
+                      }
+                    }}
                   />
                 </HStack>
               </VStack>
@@ -161,19 +200,37 @@ export const ProjectForm = () => {
                     <IconButton
                       aria-label="删除项目亮点"
                       icon={<DeleteIcon />}
-                      size="md"
-                      p={2}
-                      onClick={() => handleArrayChange(proj.id, 'highlights', proj.highlights.filter((_, i) => i !== index).join('\n'))}
+                      size="sm"
+                      onClick={() => {
+                        const newHighlights = [...proj.highlights];
+                        newHighlights.splice(index, 1);
+                        handleChange(proj.id, 'highlights', newHighlights);
+                      }}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
                     placeholder="添加项目亮点，建议突出个人贡献和项目影响"
-                    value={proj.highlights.join('\n')}
-                    onChange={(e) => handleArrayChange(proj.id, 'highlights', e.target.value)}
-                    resize="vertical"
-                    sx={{ whiteSpace: 'pre' }}
+                    value={newInputs[proj.id]?.highlight || ''}
+                    onChange={(e) => setNewInputs(prev => ({
+                      ...prev,
+                      [proj.id]: { ...prev[proj.id], highlight: e.target.value }
+                    }))}
+                  />
+                  <IconButton
+                    aria-label="添加项目亮点"
+                    icon={<AddIcon />}
+                    onClick={() => {
+                      const highlightValue = newInputs[proj.id]?.highlight.trim();
+                      if (highlightValue) {
+                        handleChange(proj.id, 'highlights', [...proj.highlights, highlightValue]);
+                        setNewInputs(prev => ({
+                          ...prev,
+                          [proj.id]: { ...prev[proj.id], highlight: '' }
+                        }));
+                      }
+                    }}
                   />
                 </HStack>
               </VStack>
@@ -188,19 +245,37 @@ export const ProjectForm = () => {
                     <IconButton
                       aria-label="删除技术栈"
                       icon={<DeleteIcon />}
-                      size="md"
-                      p={2}
-                      onClick={() => handleArrayChange(proj.id, 'technologies', proj.technologies.filter((_, i) => i !== index).join('\n'))}
+                      size="sm"
+                      onClick={() => {
+                        const newTechnologies = [...proj.technologies];
+                        newTechnologies.splice(index, 1);
+                        handleChange(proj.id, 'technologies', newTechnologies);
+                      }}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
                     placeholder="添加技术栈"
-                    value={proj.technologies.join('\n')}
-                    onChange={(e) => handleArrayChange(proj.id, 'technologies', e.target.value)}
-                    resize="vertical"
-                    sx={{ whiteSpace: 'pre' }}
+                    value={newInputs[proj.id]?.technology || ''}
+                    onChange={(e) => setNewInputs(prev => ({
+                      ...prev,
+                      [proj.id]: { ...prev[proj.id], technology: e.target.value }
+                    }))}
+                  />
+                  <IconButton
+                    aria-label="添加技术栈"
+                    icon={<AddIcon />}
+                    onClick={() => {
+                      const techValue = newInputs[proj.id]?.technology.trim();
+                      if (techValue) {
+                        handleChange(proj.id, 'technologies', [...proj.technologies, techValue]);
+                        setNewInputs(prev => ({
+                          ...prev,
+                          [proj.id]: { ...prev[proj.id], technology: '' }
+                        }));
+                      }
+                    }}
                   />
                 </HStack>
               </VStack>

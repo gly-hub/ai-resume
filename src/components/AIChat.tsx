@@ -11,8 +11,6 @@ import {
   useToast,
   FormControl,
   FormLabel,
-  InputGroup,
-  InputRightElement,
   Badge,
   Alert,
   AlertIcon,
@@ -391,30 +389,31 @@ export default function AIChat() {
             </Button>
 
             <Box w="100%">
-              <InputGroup size="md">
-                <Textarea
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  placeholder={configSaved ? "输入你的信息..." : "请先保存 OpenAI 配置"}
-                  onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
-                  pr="4.5rem"
-                  isDisabled={!configSaved}
-                  rows={3}
-                  resize="none"
-                />
-                <InputRightElement width="4.5rem" h="100%">
-                  <Button
-                    h="1.75rem"
-                    size="sm"
-                    onClick={handleSendMessage}
-                    isLoading={loading}
-                    colorScheme="blue"
-                    isDisabled={!configSaved}
-                  >
-                    发送
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
+              <Textarea
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder={configSaved ? "输入你的信息..." : "请先保存 OpenAI 配置"}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }
+                }}
+                isDisabled={!configSaved}
+                rows={3}
+                resize="none"
+                mb={2}
+              />
+              <Button
+                onClick={handleSendMessage}
+                isLoading={loading}
+                colorScheme="blue"
+                isDisabled={!configSaved || !newMessage.trim()}
+                w="100%"
+                leftIcon={<ChatIcon />}
+              >
+                发送
+              </Button>
             </Box>
           </VStack>
         </Box>

@@ -13,12 +13,16 @@ import {
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { useResumeStore } from '../store/resumeStore'
 import { v4 as uuidv4 } from 'uuid'
+import { useState, useEffect } from 'react'
 
 export const EducationForm = () => {
   const education = useResumeStore((state) => state.resume.education)
   const addEducation = useResumeStore((state) => state.addEducation)
   const updateEducation = useResumeStore((state) => state.updateEducation)
   const deleteEducation = useResumeStore((state) => state.deleteEducation)
+
+  // 为每个教育经历创建一个新的课程和获奖输入状态
+  const [newInputs, setNewInputs] = useState<Record<string, { course: string; award: string }>>({});
 
   const handleAdd = () => {
     const newEducation = {
@@ -32,29 +36,42 @@ export const EducationForm = () => {
       courses: [],
       awards: []
     }
-    addEducation(newEducation)
+    addEducation(newEducation);
+    // 初始化新教育经历的输入状态
+    setNewInputs(prev => ({
+      ...prev,
+      [newEducation.id]: { course: '', award: '' }
+    }));
   }
 
   const handleDelete = (id: string) => {
-    deleteEducation(id)
+    deleteEducation(id);
+    // 清理对应的输入状态
+    setNewInputs(prev => {
+      const { [id]: _, ...rest } = prev;
+      return rest;
+    });
   }
 
-  const handleChange = (id: string, field: string, value: string) => {
+  const handleChange = (id: string, field: string, value: any) => {
     const edu = education.find((e) => e.id === id)
     if (edu) {
       updateEducation(id, { ...edu, [field]: value })
     }
   }
 
-  const handleArrayChange = (id: string, field: string, value: string) => {
-    const edu = education.find((e) => e.id === id)
-    if (edu) {
-      updateEducation(id, {
-        ...edu,
-        [field]: value.split(/\r?\n/).filter(Boolean)
-      })
+  // 初始化已有教育经历的输入状态
+  useEffect(() => {
+    const initialInputs: Record<string, { course: string; award: string }> = {};
+    education.forEach(edu => {
+      if (!newInputs[edu.id]) {
+        initialInputs[edu.id] = { course: '', award: '' };
+      }
+    });
+    if (Object.keys(initialInputs).length > 0) {
+      setNewInputs(prev => ({ ...prev, ...initialInputs }));
     }
-  }
+  }, [education]);
 
   return (
     <VStack spacing={8} align="stretch" w="100%">
@@ -153,19 +170,37 @@ export const EducationForm = () => {
                     <IconButton
                       aria-label="删除课程"
                       icon={<DeleteIcon />}
-                      size="md"
-                      p={2}
-                      onClick={() => handleArrayChange(edu.id, 'courses', edu.courses.filter((_, i) => i !== index).join('\n'))}
+                      size="sm"
+                      onClick={() => {
+                        const newCourses = [...edu.courses];
+                        newCourses.splice(index, 1);
+                        handleChange(edu.id, 'courses', newCourses);
+                      }}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
                     placeholder="添加主修课程"
-                    value={edu.courses.join('\n')}
-                    onChange={(e) => handleArrayChange(edu.id, 'courses', e.target.value)}
-                    resize="vertical"
-                    sx={{ whiteSpace: 'pre' }}
+                    value={newInputs[edu.id]?.course || ''}
+                    onChange={(e) => setNewInputs(prev => ({
+                      ...prev,
+                      [edu.id]: { ...prev[edu.id], course: e.target.value }
+                    }))}
+                  />
+                  <IconButton
+                    aria-label="添加课程"
+                    icon={<AddIcon />}
+                    onClick={() => {
+                      const courseValue = newInputs[edu.id]?.course.trim();
+                      if (courseValue) {
+                        handleChange(edu.id, 'courses', [...edu.courses, courseValue]);
+                        setNewInputs(prev => ({
+                          ...prev,
+                          [edu.id]: { ...prev[edu.id], course: '' }
+                        }));
+                      }
+                    }}
                   />
                 </HStack>
               </VStack>
@@ -180,19 +215,37 @@ export const EducationForm = () => {
                     <IconButton
                       aria-label="删除获奖"
                       icon={<DeleteIcon />}
-                      size="md"
-                      p={2}
-                      onClick={() => handleArrayChange(edu.id, 'awards', edu.awards.filter((_, i) => i !== index).join('\n'))}
+                      size="sm"
+                      onClick={() => {
+                        const newAwards = [...edu.awards];
+                        newAwards.splice(index, 1);
+                        handleChange(edu.id, 'awards', newAwards);
+                      }}
                     />
                   </HStack>
                 ))}
                 <HStack>
                   <Input
                     placeholder="添加获奖情况"
-                    value={edu.awards.join('\n')}
-                    onChange={(e) => handleArrayChange(edu.id, 'awards', e.target.value)}
-                    resize="vertical"
-                    sx={{ whiteSpace: 'pre' }}
+                    value={newInputs[edu.id]?.award || ''}
+                    onChange={(e) => setNewInputs(prev => ({
+                      ...prev,
+                      [edu.id]: { ...prev[edu.id], award: e.target.value }
+                    }))}
+                  />
+                  <IconButton
+                    aria-label="添加获奖"
+                    icon={<AddIcon />}
+                    onClick={() => {
+                      const awardValue = newInputs[edu.id]?.award.trim();
+                      if (awardValue) {
+                        handleChange(edu.id, 'awards', [...edu.awards, awardValue]);
+                        setNewInputs(prev => ({
+                          ...prev,
+                          [edu.id]: { ...prev[edu.id], award: '' }
+                        }));
+                      }
+                    }}
                   />
                 </HStack>
               </VStack>
