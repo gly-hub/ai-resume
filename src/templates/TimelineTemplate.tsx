@@ -5,7 +5,7 @@ import { renderSection } from './BaseTemplate'
 import { ResumeSection } from '../types'
 
 export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
-  const { resume, colors, layout, fonts, fontSize } = props
+  const { resume, colors, layout, fontSize } = props
 
   const getAvatarStyle = () => {
     const size = props.avatarSize || '120px'
@@ -37,20 +37,18 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
   return (
     <VStack spacing={8} align="stretch">
       {/* 顶部区域 */}
-      <Box bg={colors.primary} color="white" p={6} borderRadius="lg">
+      <Box bg={colors?.primary} color="white" p={6} borderRadius="lg">
         <HStack justify="space-between" align="flex-start">
           <VStack align="flex-start" spacing={4}>
             <Heading 
               size="2xl" 
-              fontFamily={fonts.heading}
               fontSize={fontSize?.heading}
             >
               {resume.basicInfo.name}
             </Heading>
             <Text 
               fontSize={fontSize?.body}
-              fontFamily={fonts.body}
-            >
+            >  
               {resume.basicInfo.jobTitle}
             </Text>
           </VStack>
@@ -69,7 +67,7 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
       </Box>
 
       {/* 基本信息区 */}
-      <Box p={6} bg={`${colors.primary}10`} borderRadius="lg">
+      <Box p={6} bg={`${colors?.primary}10`} borderRadius="lg">
         <Grid templateColumns="repeat(2, 1fr)" gap={6}>
           <GridItem>
             <VStack align="stretch" spacing={3}>
@@ -112,7 +110,7 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
               <HStack spacing={4} mb={4}>
                 <Box
                   p={2}
-                  bg={colors.primary}
+                  bg={colors?.primary}
                   color="white"
                   borderRadius="md"
                 >
@@ -120,8 +118,7 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
                 </Box>
                 <Heading 
                   size="md" 
-                  color={colors.primary} 
-                  fontFamily={fonts.heading}
+                  color={colors?.primary} 
                   fontSize={fontSize?.heading}
                 >
                   {section.name}
@@ -135,7 +132,7 @@ export const TimelineTemplate: React.FC<TemplateProps> = (props) => {
                 top="50px"
                 bottom="0"
                 width="2px"
-                bg={`${colors.primary}30`}
+                bg={`${colors?.primary}30`}
                 zIndex={1}
               />
 

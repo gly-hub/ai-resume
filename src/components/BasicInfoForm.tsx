@@ -4,7 +4,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  FormHelperText,
   Box,
   Image,
   IconButton,
@@ -59,6 +58,7 @@ export function BasicInfoForm() {
       }
       reader.readAsDataURL(file)
     } catch (error) {
+      console.error('Error:', error)
       toast({
         title: '图片上传失败',
         status: 'error',

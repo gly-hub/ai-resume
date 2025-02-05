@@ -14,7 +14,6 @@ import {
   FormLabel,
   InputGroup,
   InputRightElement,
-  IconButton,
   Badge
 } from '@chakra-ui/react';
 import { ChatIcon } from '@chakra-ui/icons';

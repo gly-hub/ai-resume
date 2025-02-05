@@ -4,7 +4,7 @@ import { renderSection } from './BaseTemplate'
 import { ResumeSection } from '../types'
 
 export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
-  const { resume, colors, spacing, layout, fonts, fontSize } = props
+  const { resume, colors, spacing, layout, fontSize } = props
 
   const getAvatarStyle = () => {
     const size = props.avatarSize || '150px'
@@ -28,7 +28,7 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
         }
       case 'line':
         return {
-          borderBottom: `2px solid ${colors.accent}`
+          borderBottom: `2px solid ${colors?.accent}`
         }
       default:
         return {}
@@ -41,7 +41,7 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
       <Box 
         width="30%" 
         borderRight="1px solid"
-        borderColor={colors.accent}
+        borderColor={colors?.accent}
         pr={6}
         data-left-column
       >
@@ -56,7 +56,7 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
                     alt="头像"
                     objectFit="cover"
                     border="2px solid"
-                    borderColor={colors.accent}
+                    borderColor={colors?.accent}
                     {...getAvatarStyle()}
                   />
                 </Box>
@@ -65,14 +65,13 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
                 <Box>
                   <Heading 
                     size="xl" 
-                    color={colors.primary}
-                    fontFamily={fonts.heading}
+                    color={colors?.primary}
                     fontSize={fontSize?.heading}
                     mb={2}
                   >
                     {resume.basicInfo.name}
                   </Heading>
-                  <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} mb={1}>
+                  <Text color={colors?.text} fontSize={fontSize?.body} mb={1}>
                     {resume.basicInfo.jobTitle}
                   </Text>
                 </Box>
@@ -80,22 +79,22 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
                 <VStack align="stretch" spacing={2}>
                   {resume.basicInfo.location && (
                     <HStack spacing={2} align="flex-start">
-                      <Text color={colors.secondary} fontSize={fontSize?.secondary}>📍</Text>
-                      <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
+                      <Text color={colors?.secondary} fontSize={fontSize?.secondary}>📍</Text>
+                      <Text color={colors?.text} fontSize={fontSize?.body} wordBreak="break-word">
                         {resume.basicInfo.location}
                       </Text>
                     </HStack>
                   )}
                   <HStack spacing={2} align="flex-start">
-                    <Text color={colors.secondary} fontSize={fontSize?.secondary}>📧</Text>
-                    <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
+                    <Text color={colors?.secondary} fontSize={fontSize?.secondary}>📧</Text>
+                    <Text color={colors?.text} fontSize={fontSize?.body} wordBreak="break-word">
                       {resume.basicInfo.email}
                     </Text>
                   </HStack>
                   {resume.basicInfo.phone && (
                     <HStack spacing={2} align="flex-start">
-                      <Text color={colors.secondary} fontSize={fontSize?.secondary}>📱</Text>
-                      <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
+                      <Text color={colors?.secondary} fontSize={fontSize?.secondary}>📱</Text>
+                      <Text color={colors?.text} fontSize={fontSize?.body} wordBreak="break-word">
                         {resume.basicInfo.phone}
                       </Text>
                     </HStack>
@@ -105,24 +104,24 @@ export const TwoColumnTemplate: React.FC<TemplateProps> = (props) => {
                 <VStack align="stretch" spacing={2}>
                   {resume.basicInfo.website && (
                     <HStack spacing={2} align="flex-start">
-                      <Text color={colors.secondary} fontSize={fontSize?.secondary}>🌐</Text>
-                      <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
+                      <Text color={colors?.secondary} fontSize={fontSize?.secondary}>🌐</Text>
+                      <Text color={colors?.text} fontSize={fontSize?.body} wordBreak="break-word">
                         {resume.basicInfo.website}
                       </Text>
                     </HStack>
                   )}
                   {resume.basicInfo.github && (
                     <HStack spacing={2} align="flex-start">
-                      <Text color={colors.secondary} fontSize={fontSize?.secondary}>🔗</Text>
-                      <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
+                      <Text color={colors?.secondary} fontSize={fontSize?.secondary}>🔗</Text>
+                      <Text color={colors?.text} fontSize={fontSize?.body} wordBreak="break-word">
                         {resume.basicInfo.github}
                       </Text>
                     </HStack>
                   )}
                   {resume.basicInfo.blog && (
                     <HStack spacing={2} align="flex-start">
-                      <Text color={colors.secondary} fontSize={fontSize?.secondary}>📝</Text>
-                      <Text color={colors.text} fontFamily={fonts.body} fontSize={fontSize?.body} wordBreak="break-word">
+                      <Text color={colors?.secondary} fontSize={fontSize?.secondary}>📝</Text>
+                      <Text color={colors?.text} fontSize={fontSize?.body} wordBreak="break-word">
                         {resume.basicInfo.blog}
                       </Text>
                     </HStack>

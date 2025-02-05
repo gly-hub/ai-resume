@@ -186,12 +186,11 @@ export function ResumePDF() {
         <Box p={8} bg="white">
           <Template 
             resume={resume}
-            colors={resume.templateConfig.colors}
-            fonts={resume.templateConfig.fonts}
-            fontSize={resume.templateConfig.fontSize}
-            spacing={resume.templateConfig.spacing}
-            layout={resume.templateConfig.layout}
-            avatarSize={resume.templateConfig.avatarSize}
+            colors={resume.templateConfig?.colors}
+            fontSize={resume.templateConfig?.fontSize}
+            spacing={resume.templateConfig?.spacing}
+            layout={resume.templateConfig?.layout}
+            avatarSize={resume.templateConfig?.avatarSize}
           />
         </Box>
       </Box>

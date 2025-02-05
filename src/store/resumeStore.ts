@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { Resume, ResumeSection, BasicInfo, Education, WorkExperience, Project, Skill, Additional, TemplateType, TemplateConfig } from '../types'
+import { Resume, BasicInfo, Education, WorkExperience, Project, Skill, Additional, TemplateType, TemplateConfig } from '../types'
 import { sampleResume } from './sampleResume'
 import { templates } from '../templates'
 import { v4 as uuidv4 } from 'uuid'
@@ -63,7 +63,7 @@ const initialResume: Resume = {
       heading: '24px',
       body: '14px',
       secondary: '12px'
-    }
+    },
   }
 }
 

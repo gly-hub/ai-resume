@@ -60,30 +60,26 @@ export interface Additional {
 export type TemplateType = 'professional' | 'modern' | 'minimal' | 'creative' | 'compact' | 'elegant' | 'twoColumn'
 
 export interface TemplateConfig {
-  id: string
-  name: string
-  description: string
-  preview: string
-  colors: {
+  id?: string
+  name?: string
+  description?: string
+  preview?: string
+  colors?: {
     primary: string
     secondary: string
     accent: string
     text: string
     background: string
   }
-  fonts: {
-    heading: string
-    body: string
-  }
-  fontSize?: {
+  fontSize: {
     heading: string
     body: string
     secondary: string
   }
   avatarSize: string
   spacing: {
-    section: number
-    item: number
+    section: string
+    item: string
   }
   layout: {
     headerStyle: 'centered' | 'left' | 'right' | 'split'

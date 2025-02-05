@@ -1,4 +1,4 @@
-import { VStack, Box, HStack, Text, Switch, IconButton, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from '@chakra-ui/react'
+import { VStack, Box, Text, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from '@chakra-ui/react'
 import {
   DndContext,
   closestCenter,
@@ -23,7 +23,6 @@ export function SectionSorter() {
   const updateSection = useResumeStore((state) => state.updateSection)
   const updateSectionOrder = useResumeStore((state) => state.updateSectionOrder)
   const updateTemplate = useResumeStore((state) => state.updateTemplate)
-  const updateResume = useResumeStore((state) => state.updateResume)
 
   const sensors = useSensors(
     useSensor(PointerSensor),

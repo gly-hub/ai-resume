@@ -1,18 +1,19 @@
-import { Resume } from './resume'
+import { Resume } from '../types'
 
 export interface TemplateProps {
+  id?: string
+  name?: string
+  description?: string
+  preview?: string
   resume: Resume
-  colors: {
+  colors?: {
     primary: string
     secondary: string
     text: string
     accent: string
+    background: string
   }
-  fonts: {
-    heading: string
-    body: string
-  }
-  fontSize?: {
+  fontSize: {
     heading: string
     body: string
     secondary: string
@@ -24,7 +25,7 @@ export interface TemplateProps {
   }
   layout: {
     headerStyle: 'centered' | 'left' | 'right' | 'split'
-    sectionStyle: 'plain' | 'boxed' | 'line'
+    sectionStyle: 'boxed' | 'line' | 'minimal'
     avatarStyle: 'circle' | 'square' | 'rounded'
     contentWidth: 'full' | 'narrow' | 'wide'
   }
@@ -38,18 +39,22 @@ export interface TemplateStyles {
 }
 
 export interface ResumeTemplate {
-  name: string
-  description: string
+  name?: string
+  description?: string
+  preview?: string
   component: React.ComponentType<TemplateProps>
   defaultConfig: {
-    colors: TemplateProps['colors']
-    fonts: TemplateProps['fonts']
-    fontSize?: TemplateProps['fontSize']
+    id: TemplateProps['id']
+    name: TemplateProps['name']
+    description: TemplateProps['description']
+    preview: TemplateProps['preview']
+    colors?: TemplateProps['colors']
+    fontSize: TemplateProps['fontSize']
+    avatarSize: TemplateProps['avatarSize']
     spacing: {
       section: string
       item: string
     }
     layout: TemplateProps['layout']
   }
-  thumbnail: string
 } 

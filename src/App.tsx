@@ -2,7 +2,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Editor } from './pages/Editor'
 import { Home } from './pages/Home'
-import AIChat from './pages/AIChat'
+
 
 const theme = extendTheme({
   styles: {
@@ -21,7 +21,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/editor" element={<Editor />} />
-          {/* <Route path="/ai-chat" element={<AIChat />} /> */}
         </Routes>
       </Router>
     </ChakraProvider>

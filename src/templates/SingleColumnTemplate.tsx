@@ -1,6 +1,7 @@
 import { Box, VStack, HStack, Image, Heading, Text } from '@chakra-ui/react'
 import { TemplateProps } from '../types/template'
 import { renderLinks, renderSection } from './BaseTemplate'
+import { ResumeSection } from '../types'
 
 export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
   const { resume, colors, spacing, layout, fontSize } = props
@@ -54,7 +55,7 @@ export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
         }
       case 'line':
         return {
-          borderBottom: `2px solid ${colors.accent}`
+          borderBottom: `2px solid ${colors?.accent}`
         }
       default:
         return {}
@@ -82,40 +83,40 @@ export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
               alt="头像"
               objectFit="cover"
               border="2px solid"
-              borderColor={colors.accent}
+              borderColor={colors?.accent}
               {...getAvatarStyle()}
             />
           )}
           <VStack align={layout.headerStyle === 'centered' ? 'center' : 'flex-start'} flex={1} spacing={3}>
             <Heading 
               size="xl" 
-              color={colors.primary}
+              color={colors?.primary}
               fontSize={fontSize?.heading}
               mb={1}
             >
               {resume.basicInfo.name}
             </Heading>
             <HStack spacing={4} wrap="wrap" justify={layout.headerStyle === 'centered' ? 'center' : 'flex-start'}>
-              <Text color={colors.text} fontSize={fontSize?.body} fontSize="lg">
+              <Text color={colors?.text} fontSize={fontSize?.body}>
                 {resume.basicInfo.jobTitle}
               </Text>
               {resume.basicInfo.location && (
                 <>
-                  <Text color={colors.secondary}>·</Text>
-                  <Text color={colors.text} fontSize={fontSize?.body} fontSize="lg">
+                  <Text color={colors?.secondary}>·</Text>
+                  <Text color={colors?.text} fontSize={fontSize?.body}>
                     {resume.basicInfo.location}
                   </Text>
                 </>
               )}
             </HStack>
             <HStack spacing={4} wrap="wrap" justify={layout.headerStyle === 'centered' ? 'center' : 'flex-start'}>
-              <Text color={colors.text} fontSize={fontSize?.body}>
+              <Text color={colors?.text} fontSize={fontSize?.body}>
                 {resume.basicInfo.email}
               </Text>
               {resume.basicInfo.phone && (
                 <>
-                  <Text color={colors.secondary}>·</Text>
-                  <Text color={colors.text} fontSize={fontSize?.body}>
+                  <Text color={colors?.secondary}>·</Text>
+                  <Text color={colors?.text} fontSize={fontSize?.body}>
                     {resume.basicInfo.phone}
                   </Text>
                 </>
@@ -129,9 +130,9 @@ export const SingleColumnTemplate: React.FC<TemplateProps> = (props) => {
       </Box>
 
       {resume.sections
-        .filter(section => section.visible)
-        .sort((a, b) => a.order - b.order)
-        .map(section => {
+        .filter((section: ResumeSection) => section.visible)
+        .sort((a: ResumeSection, b: ResumeSection) => a.order - b.order)
+        .map((section: ResumeSection) => {
           const sectionContent = renderSection(section, props)
           return sectionContent ? (
             <Box key={section.id} className="page-break-inside-avoid" {...getSectionStyle()} mb={4}>

@@ -13,16 +13,16 @@ import {
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useResumeStore } from '../store/resumeStore'
-
+import { Education, WorkExperience, Skill } from '../types'
 interface ResumeForm {
   name: string
   title: string
   email: string
   phone: string
   summary: string
-  education: string
-  experience: string
-  skills: string
+  education: Education[]
+  experience: WorkExperience[]
+  skills: Skill[]
 }
 
 export function ResumeEditor() {

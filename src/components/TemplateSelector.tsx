@@ -13,7 +13,7 @@ import { templates } from '../templates'
 import { useResumeStore } from '../store/resumeStore'
 import { TemplateType } from '../types'
 
-function TemplateCard(props: UseRadioProps & { name: string; description: string; preview: string }) {
+function TemplateCard(props: UseRadioProps & { name?: string; description?: string; preview?: string }) {
   const { name, description, preview, ...radioProps } = props
   const { getInputProps, getRadioProps } = useRadio(radioProps)
   const input = getInputProps()
@@ -59,28 +59,26 @@ export function TemplateSelector() {
     onChange: (value) => {
       const templateType = value as TemplateType
       const spacing = {
-        section: Number(templates[templateType].defaultConfig.spacing.section.replace('rem', '')),
-        item: Number(templates[templateType].defaultConfig.spacing.item.replace('rem', ''))
+        section: templates[templateType].defaultConfig.spacing.section,
+        item: templates[templateType].defaultConfig.spacing.item
       }
       const sectionStyle: 'minimal' | 'line' | 'boxed' = 
-        templates[templateType].defaultConfig.layout.sectionStyle === 'plain' ? 'minimal' : 
+        templates[templateType].defaultConfig.layout.sectionStyle === 'boxed' ? 'minimal' : 
         templates[templateType].defaultConfig.layout.sectionStyle === 'line' ? 'line' : 'boxed'
 
       const templateConfig = {
         id: templateType,
         name: templates[templateType].name,
         description: templates[templateType].description,
-        preview: templates[templateType].thumbnail,
-        colors: {
-          ...templates[templateType].defaultConfig.colors,
-          background: '#FFFFFF'
-        },
-        fonts: templates[templateType].defaultConfig.fonts,
+        preview: templates[templateType].preview,
+        colors: templates[templateType].defaultConfig.colors,
         spacing,
         layout: {
           ...templates[templateType].defaultConfig.layout,
           sectionStyle
-        }
+        },
+        fontSize: templates[templateType].defaultConfig.fontSize,
+        avatarSize: templates[templateType].defaultConfig.avatarSize
       }
       updateTemplate(templateType, templateConfig)
     },
@@ -95,7 +93,7 @@ export function TemplateSelector() {
             {...getRadioProps({ value: id })}
             name={template.name}
             description={template.description}
-            preview={template.thumbnail}
+            preview={template.preview}
           />
         ))}
       </SimpleGrid>

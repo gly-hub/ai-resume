@@ -51,15 +51,15 @@ export const renderSection = (section: ResumeSection, props: TemplateProps, opti
               <Box key={edu.id || index}>
                 <HStack justify="space-between" mb={2}>
                   <Text fontWeight="bold" fontSize={fontSize?.heading}>{edu.school}</Text>
-                  <Text color={colors.secondary} fontSize={fontSize?.secondary}>{`${edu.startDate} - ${edu.endDate}`}</Text>
+                  <Text color={colors?.secondary} fontSize={fontSize?.secondary}>{`${edu.startDate} - ${edu.endDate}`}</Text>
                 </HStack>
                 <Text fontSize={fontSize?.body} mb={1}>{edu.degree} · {edu.major}</Text>
-                {edu.gpa && <Text color={colors.secondary} fontSize={fontSize?.secondary}>GPA: {edu.gpa}</Text>}
+                {edu.gpa && <Text color={colors?.secondary} fontSize={fontSize?.secondary}>GPA: {edu.gpa}</Text>}
                 {edu.courses?.length > 0 && (
-                  <Text color={colors.secondary} fontSize={fontSize?.secondary}>主修课程：{edu.courses.join('、')}</Text>
+                  <Text color={colors?.secondary} fontSize={fontSize?.secondary}>主修课程：{edu.courses.join('、')}</Text>
                 )}
                 {edu.awards?.length > 0 && (
-                  <Text color={colors.secondary} fontSize={fontSize?.secondary}>获奖情况：{edu.awards.join('、')}</Text>
+                  <Text color={colors?.secondary} fontSize={fontSize?.secondary}>获奖情况：{edu.awards.join('、')}</Text>
                 )}
               </Box>
             ))}
@@ -73,7 +73,7 @@ export const renderSection = (section: ResumeSection, props: TemplateProps, opti
               <Box key={exp.id || index}>
                 <HStack justify="space-between" mb={2}>
                   <Text fontWeight="bold" fontSize={fontSize?.heading}>{exp.company}</Text>
-                  <Text color={colors.secondary} fontSize={fontSize?.secondary}>{`${exp.startDate} - ${exp.endDate}`}</Text>
+                  <Text color={colors?.secondary} fontSize={fontSize?.secondary}>{`${exp.startDate} - ${exp.endDate}`}</Text>
                 </HStack>
                 <Text fontSize={fontSize?.body} mb={2}>{exp.position}</Text>
                 {exp.description?.length > 0 && (
@@ -84,7 +84,7 @@ export const renderSection = (section: ResumeSection, props: TemplateProps, opti
                   </UnorderedList>
                 )}
                 {exp.technologies?.length > 0 && (
-                  <Text mt={2} color={colors.secondary} fontSize={fontSize?.secondary}>技术栈：{exp.technologies.join('、')}</Text>
+                  <Text mt={2} color={colors?.secondary} fontSize={fontSize?.secondary}>技术栈：{exp.technologies.join('、')}</Text>
                 )}
               </Box>
             ))}
@@ -98,7 +98,7 @@ export const renderSection = (section: ResumeSection, props: TemplateProps, opti
               <Box key={proj.id || index}>
                 <HStack justify="space-between" mb={2}>
                   <Text fontWeight="bold" fontSize={fontSize?.heading}>{proj.name}</Text>
-                  <Text color={colors.secondary} fontSize={fontSize?.secondary}>{`${proj.startDate} - ${proj.endDate}`}</Text>
+                  <Text color={colors?.secondary} fontSize={fontSize?.secondary}>{`${proj.startDate} - ${proj.endDate}`}</Text>
                 </HStack>
                 <Text fontSize={fontSize?.body} mb={2}>{proj.role}</Text>
                 {proj.description?.length > 0 && (
@@ -116,7 +116,7 @@ export const renderSection = (section: ResumeSection, props: TemplateProps, opti
                   </UnorderedList>
                 )}
                 {proj.technologies?.length > 0 && (
-                  <Text mt={2} color={colors.secondary} fontSize={fontSize?.secondary}>技术栈：{proj.technologies.join('、')}</Text>
+                  <Text mt={2} color={colors?.secondary} fontSize={fontSize?.secondary}>技术栈：{proj.technologies.join('、')}</Text>
                 )}
               </Box>
             ))}
@@ -129,7 +129,7 @@ export const renderSection = (section: ResumeSection, props: TemplateProps, opti
             {resume.skills.map((skill: Skill, index: number) => (
               <Box key={skill.id || index}>
                 <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>{skill.category}</Text>
-                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{skill.items.join('、')}</Text>
+                <Text color={colors?.secondary} fontSize={fontSize?.secondary}>{skill.items.join('、')}</Text>
               </Box>
             ))}
           </VStack>
@@ -143,31 +143,31 @@ export const renderSection = (section: ResumeSection, props: TemplateProps, opti
             {languages?.length > 0 && (
               <Box>
                 <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>语言能力</Text>
-                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{languages.join('、')}</Text>
+                <Text color={colors?.secondary} fontSize={fontSize?.secondary}>{languages.join('、')}</Text>
               </Box>
             )}
             {certifications?.length > 0 && (
               <Box>
                 <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>专业认证</Text>
-                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{certifications.join('、')}</Text>
+                <Text color={colors?.secondary} fontSize={fontSize?.secondary}>{certifications.join('、')}</Text>
               </Box>
             )}
             {talks?.length > 0 && (
               <Box>
                 <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>技术分享</Text>
-                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{talks.join('、')}</Text>
+                <Text color={colors?.secondary} fontSize={fontSize?.secondary}>{talks.join('、')}</Text>
               </Box>
             )}
             {publications?.length > 0 && (
               <Box>
                 <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>出版物</Text>
-                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{publications.join('、')}</Text>
+                <Text color={colors?.secondary} fontSize={fontSize?.secondary}>{publications.join('、')}</Text>
               </Box>
             )}
             {openSource?.length > 0 && (
               <Box>
                 <Text fontWeight="bold" mb={1} fontSize={fontSize?.heading}>开源贡献</Text>
-                <Text color={colors.secondary} fontSize={fontSize?.secondary}>{openSource.join('、')}</Text>
+                <Text color={colors?.secondary} fontSize={fontSize?.secondary}>{openSource.join('、')}</Text>
               </Box>
             )}
           </VStack>
@@ -186,10 +186,10 @@ export const renderSection = (section: ResumeSection, props: TemplateProps, opti
           py={3} 
           className="page-break-inside-avoid"
         >
-          <Heading as="h2" size="md" color={colors.primary} fontSize={fontSize?.heading} mb={2}>
+          <Heading as="h2" size="md" color={colors?.primary} fontSize={fontSize?.heading} mb={2}>
             {section.name}
           </Heading>
-          <Box borderBottom={`2px solid ${colors.primary}`} mb={3} />
+          <Box borderBottom={`2px solid ${colors?.primary}`} mb={3} />
         </Box>
       )}
       <Box>

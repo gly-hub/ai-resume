@@ -9,6 +9,12 @@ const professional: TemplateConfig = {
   name: '专业简约',
   description: '清晰专业的布局,适合大多数求职场景',
   preview: '/templates/professional.png',
+  fontSize: {
+    heading: '24px',
+    body: '14px',
+    secondary: '12px'
+  },
+  avatarSize: '100px',
   colors: {
     primary: '#2D3748',
     secondary: '#718096',
@@ -16,13 +22,9 @@ const professional: TemplateConfig = {
     text: '#1A202C',
     background: '#FFFFFF'
   },
-  fonts: {
-    heading: "'AlibabaPuHuiTi', sans-serif",
-    body: "'AlibabaPuHuiTi', sans-serif"
-  },
   spacing: {
-    section: 6,
-    item: 4
+    section: '6rem',
+    item: '4rem'
   },
   layout: {
     headerStyle: 'left',
@@ -37,6 +39,12 @@ const modern: TemplateConfig = {
   name: '现代简洁',
   description: '现代感十足的设计,突出重点内容',
   preview: '/templates/modern.png',
+  fontSize: {
+    heading: '24px',
+    body: '14px',
+    secondary: '12px'
+  },
+  avatarSize: '100px',
   colors: {
     primary: '#1A365D',
     secondary: '#4A5568',
@@ -44,13 +52,9 @@ const modern: TemplateConfig = {
     text: '#2D3748',
     background: '#FFFFFF'
   },
-  fonts: {
-    heading: "'AlibabaPuHuiTi', sans-serif",
-    body: "'AlibabaPuHuiTi', sans-serif"
-  },
   spacing: {
-    section: 8,
-    item: 5
+    section: '8rem',
+    item: '5rem'
   },
   layout: {
     headerStyle: 'centered',
@@ -65,6 +69,12 @@ const minimal: TemplateConfig = {
   name: '极简风格',
   description: '极简主义设计,让内容更加突出',
   preview: '/templates/minimal.png',
+  fontSize: {
+    heading: '24px',
+    body: '14px',
+    secondary: '12px'
+  },
+  avatarSize: '100px',
   colors: {
     primary: '#000000',
     secondary: '#666666',
@@ -72,13 +82,9 @@ const minimal: TemplateConfig = {
     text: '#333333',
     background: '#FFFFFF'
   },
-  fonts: {
-    heading: "'AlibabaPuHuiTi', sans-serif",
-    body: "'AlibabaPuHuiTi', sans-serif"
-  },
   spacing: {
-    section: 6,
-    item: 3
+    section: '6rem',
+    item: '3rem'
   },
   layout: {
     headerStyle: 'left',
@@ -93,6 +99,12 @@ const creative: TemplateConfig = {
   name: '创意设计',
   description: '富有创意的布局,适合设计类职位',
   preview: '/templates/creative.png',
+  fontSize: {
+    heading: '24px',
+    body: '14px',
+    secondary: '12px'
+  },
+  avatarSize: '100px',
   colors: {
     primary: '#553C9A',
     secondary: '#805AD5',
@@ -100,13 +112,9 @@ const creative: TemplateConfig = {
     text: '#2D3748',
     background: '#FFFFFF'
   },
-  fonts: {
-    heading: "'AlibabaPuHuiTi', sans-serif",
-    body: "'AlibabaPuHuiTi', sans-serif"
-  },
   spacing: {
-    section: 7,
-    item: 4
+    section: '7rem',
+    item: '4rem'
   },
   layout: {
     headerStyle: 'split',
@@ -121,6 +129,12 @@ const compact: TemplateConfig = {
   name: '紧凑双栏',
   description: '双栏布局,适合信息内容较多的情况',
   preview: '/templates/compact.png',
+  fontSize: {
+    heading: '24px',
+    body: '14px',
+    secondary: '12px'
+  },
+  avatarSize: '100px',
   colors: {
     primary: '#2C5282',
     secondary: '#4A5568',
@@ -128,13 +142,9 @@ const compact: TemplateConfig = {
     text: '#1A202C',
     background: '#FFFFFF'
   },
-  fonts: {
-    heading: "'AlibabaPuHuiTi', sans-serif",
-    body: "'AlibabaPuHuiTi', sans-serif"
-  },
   spacing: {
-    section: 5,
-    item: 3
+    section: '5rem',
+    item: '3rem'
   },
   layout: {
     headerStyle: 'centered',
@@ -156,13 +166,15 @@ const elegant: TemplateConfig = {
     text: '#2D3748',
     background: '#FFFFFF'
   },
-  fonts: {
-    heading: "'AlibabaPuHuiTi', sans-serif",
-    body: "'AlibabaPuHuiTi', sans-serif"
+  fontSize: {
+    heading: '24px',
+    body: '14px',
+    secondary: '12px'
   },
+  avatarSize: '100px',
   spacing: {
-    section: 6,
-    item: 4
+    section: '6rem',
+    item: '4rem'
   },
   layout: {
     headerStyle: 'right',
@@ -177,6 +189,12 @@ const twoColumn: TemplateConfig = {
   name: '双栏布局',
   description: '左右分栏的经典布局,突出个人信息',
   preview: '/templates/twoColumn.png',
+  fontSize: {
+    heading: '24px',
+    body: '14px',
+    secondary: '12px'
+  },
+  avatarSize: '100px',
   colors: {
     primary: '#2B5876',
     secondary: '#4A5568',
@@ -184,13 +202,9 @@ const twoColumn: TemplateConfig = {
     text: '#2D3748',
     background: '#FFFFFF'
   },
-  fonts: {
-    heading: "'AlibabaPuHuiTi', sans-serif",
-    body: "'AlibabaPuHuiTi', sans-serif"
-  },
   spacing: {
-    section: 4,
-    item: 3
+    section: '4rem',
+    item: '3rem'
   },
   layout: {
     headerStyle: 'left',
@@ -205,6 +219,12 @@ const timeline: TemplateConfig = {
   name: '时间轴',
   description: '清晰的时间轴布局',
   preview: '/templates/timeline.png',
+  fontSize: {
+    heading: '24px',
+    body: '14px',
+    secondary: '12px'
+  },
+  avatarSize: '100px',
   colors: {
     primary: '#2B6CB0',
     secondary: '#4299E1',
@@ -212,13 +232,9 @@ const timeline: TemplateConfig = {
     text: '#2D3748',
     background: '#FFFFFF'
   },
-  fonts: {
-    heading: 'system-ui',
-    body: 'system-ui'
-  },
   spacing: {
-    section: 2,
-    item: 1.5
+    section: '2rem',
+    item: '1.5rem'
   },
   layout: {
     headerStyle: 'left',
@@ -232,10 +248,14 @@ export const templates: Record<string, ResumeTemplate> = {
   professional: {
     name: professional.name,
     description: professional.description,
+    preview: professional.preview,
     component: twoColumnConfig.component,
     defaultConfig: {
+      id: professional.id,
+      name: professional.name,
+      description: professional.description,
+      preview: professional.preview,
       colors: professional.colors,
-      fonts: professional.fonts,
       fontSize: {
         heading: '24px',
         body: '14px',
@@ -243,20 +263,23 @@ export const templates: Record<string, ResumeTemplate> = {
       },
       avatarSize: '100px',
       spacing: {
-        section: `${professional.spacing.section * 0.25}rem`,
-        item: `${professional.spacing.item * 0.25}rem`
+        section: `${Number(professional.spacing.section) * 0.25}rem`,
+        item: `${Number(professional.spacing.item) * 0.25}rem`,
       },
       layout: professional.layout
     },
-    thumbnail: professional.preview
   },
   modern: {
     name: modern.name,
     description: modern.description,
+    preview: modern.preview,
     component: singleColumnConfig.component,
     defaultConfig: {
+      id: modern.id,
+      name: modern.name,
+      description: modern.description,
+      preview: modern.preview,
       colors: modern.colors,
-      fonts: modern.fonts,
       fontSize: {
         heading: '24px',
         body: '14px',
@@ -264,23 +287,26 @@ export const templates: Record<string, ResumeTemplate> = {
       },
       avatarSize: '100px',
       spacing: {
-        section: `${modern.spacing.section * 0.25}rem`,
-        item: `${modern.spacing.item * 0.25}rem`
+        section: `${Number(modern.spacing.section) * 0.25}rem`,
+        item: `${Number(modern.spacing.item) * 0.25}rem`
       },
       layout: {
         ...modern.layout,
-        sectionStyle: modern.layout.sectionStyle as 'line' | 'boxed' | 'plain'
+        sectionStyle: modern.layout.sectionStyle as 'boxed' | 'line' | 'minimal'
       }
     },
-    thumbnail: modern.preview
   },
   minimal: {
     name: minimal.name,
     description: minimal.description,
+    preview: minimal.preview,
     component: singleColumnConfig.component,
     defaultConfig: {
+      id: minimal.id,
+      name: minimal.name,
+      description: minimal.description,
+      preview: minimal.preview,
       colors: minimal.colors,
-      fonts: minimal.fonts,
       fontSize: {
         heading: '24px',
         body: '14px',
@@ -288,23 +314,26 @@ export const templates: Record<string, ResumeTemplate> = {
       },
       avatarSize: '100px',
       spacing: {
-        section: `${minimal.spacing.section * 0.25}rem`,
-        item: `${minimal.spacing.item * 0.25}rem`
+        section: `${Number(minimal.spacing.section) * 0.25}rem`,
+        item: `${Number(minimal.spacing.item) * 0.25}rem`
       },
       layout: {
         ...minimal.layout,
-        sectionStyle: 'plain' as const
+        sectionStyle: 'boxed' as const
       }
     },
-    thumbnail: minimal.preview
   },
   creative: {
     name: creative.name,
     description: creative.description,
+    preview: creative.preview,
     component: singleColumnConfig.component,
     defaultConfig: {
+      id: creative.id,
+      name: creative.name,
+      description: creative.description,
+      preview: creative.preview,
       colors: creative.colors,
-      fonts: creative.fonts,
       fontSize: {
         heading: '24px',
         body: '14px',
@@ -312,20 +341,23 @@ export const templates: Record<string, ResumeTemplate> = {
       },
       avatarSize: '100px',
       spacing: {
-        section: `${creative.spacing.section * 0.25}rem`,
-        item: `${creative.spacing.item * 0.25}rem`
+        section: `${Number(creative.spacing.section) * 0.25}rem`,
+        item: `${Number(creative.spacing.item) * 0.25}rem`
       },
       layout: creative.layout
     },
-    thumbnail: creative.preview
   },
   compact: {
     name: compact.name,
     description: compact.description,
+    preview: compact.preview,
     component: singleColumnConfig.component,
     defaultConfig: {
+      id: compact.id,
+      name: compact.name,
+      description: compact.description,
+      preview: compact.preview,
       colors: compact.colors,
-      fonts: compact.fonts,
       fontSize: {
         heading: '24px',
         body: '14px',
@@ -333,20 +365,23 @@ export const templates: Record<string, ResumeTemplate> = {
       },
       avatarSize: '100px',
       spacing: {
-        section: `${compact.spacing.section * 0.25}rem`,
-        item: `${compact.spacing.item * 0.25}rem`
+        section: `${Number(compact.spacing.section) * 0.25}rem`,
+        item: `${Number(compact.spacing.item) * 0.25}rem`
       },
       layout: compact.layout
     },
-    thumbnail: compact.preview
   },
   elegant: {
     name: elegant.name,
     description: elegant.description,
+    preview: elegant.preview,
     component: twoColumnConfig.component,
     defaultConfig: {
+      id: elegant.id,
+      name: elegant.name,
+      description: elegant.description,
+      preview: elegant.preview,
       colors: elegant.colors,
-      fonts: elegant.fonts,
       fontSize: {
         heading: '24px',
         body: '14px',
@@ -354,20 +389,23 @@ export const templates: Record<string, ResumeTemplate> = {
       },
       avatarSize: '100px',
       spacing: {
-        section: `${elegant.spacing.section * 0.25}rem`,
-        item: `${elegant.spacing.item * 0.25}rem`
+        section: `${Number(elegant.spacing.section) * 0.25}rem`,
+        item: `${Number(elegant.spacing.item) * 0.25}rem`
       },
       layout: elegant.layout
     },
-    thumbnail: elegant.preview
   },
   twoColumn: {
     name: twoColumn.name,
     description: twoColumn.description,
+    preview: twoColumn.preview,
     component: twoColumnConfig.component,
     defaultConfig: {
+      id: twoColumn.id,
+      name: twoColumn.name,
+      description: twoColumn.description,
+      preview: twoColumn.preview,
       colors: twoColumn.colors,
-      fonts: twoColumn.fonts,
       fontSize: {
         heading: '24px',
         body: '14px',
@@ -375,20 +413,23 @@ export const templates: Record<string, ResumeTemplate> = {
       },
       avatarSize: '100px',
       spacing: {
-        section: `${twoColumn.spacing.section * 0.25}rem`,
-        item: `${twoColumn.spacing.item * 0.25}rem`
+        section: `${Number(twoColumn.spacing.section) * 0.25}rem`,
+        item: `${Number(twoColumn.spacing.item) * 0.25}rem`
       },
       layout: twoColumn.layout
     },
-    thumbnail: twoColumn.preview
   },
   timeline: {
     name: timeline.name,
     description: timeline.description,
+    preview: timeline.preview,
     component: TimelineTemplate,
     defaultConfig: {
+      id: timeline.id,
+      name: timeline.name,
+      description: timeline.description,
+      preview: timeline.preview,
       colors: timeline.colors,
-      fonts: timeline.fonts,
       fontSize: {
         heading: '24px',
         body: '14px',
@@ -396,15 +437,14 @@ export const templates: Record<string, ResumeTemplate> = {
       },
       avatarSize: '120px',
       spacing: {
-        section: `${timeline.spacing.section * 0.25}rem`,
-        item: `${timeline.spacing.item * 0.25}rem`
+        section: `${Number(timeline.spacing.section) * 0.25}rem`,
+        item: `${Number(timeline.spacing.item) * 0.25}rem`
       },
       layout: {
         ...timeline.layout,
-        sectionStyle: timeline.layout.sectionStyle as 'line' | 'boxed' | 'plain'
+        sectionStyle: timeline.layout.sectionStyle as 'boxed' | 'line' | 'minimal'
       }
     },
-    thumbnail: timeline.preview
   }
 }
 

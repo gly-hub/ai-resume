@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box,
-  Container,
   Input,
   Button,
   VStack,
@@ -14,23 +13,18 @@ import {
   FormLabel,
   InputGroup,
   InputRightElement,
-  IconButton,
   Badge,
-  HStack,
-  Tooltip,
   Alert,
   AlertIcon,
   AlertTitle,
   AlertDescription,
 } from '@chakra-ui/react';
-import { ChatIcon, EditIcon, ViewIcon } from '@chakra-ui/icons';
-import { useNavigate } from 'react-router-dom';
+import { ChatIcon } from '@chakra-ui/icons';
 import { openAIService } from '../services/openai';
 import { useResumeStore } from '../store/resumeStore';
 import type { Message } from '../types';
 
 export default function AIChat() {
-  const navigate = useNavigate();
   const toast = useToast();
   const loadFromAI = useResumeStore(state => state.loadFromAI);
   const [config, setConfig] = useState(() => openAIService.getConfig() || {

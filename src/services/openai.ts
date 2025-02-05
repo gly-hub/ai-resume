@@ -1,6 +1,5 @@
 import { Resume, Message } from '../types';
 import { templates } from '../templates';
-import { v4 as uuidv4 } from 'uuid';
 
 export interface OpenAIConfig {
   apiKey: string;
