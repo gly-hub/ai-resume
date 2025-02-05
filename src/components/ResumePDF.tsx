@@ -13,20 +13,27 @@ export function ResumePDF() {
     const printWindow = window.open('', '_blank')
     if (!printWindow) return
 
-    // 复制样式表
-    const styles = document.getElementsByTagName('style')
-    const links = document.getElementsByTagName('link')
-    
+    // 复制所有样式表，包括动态注入的
     printWindow.document.write('<html><head><title>简历</title>')
-    Array.from(styles).forEach(style => {
-      printWindow.document.write(style.outerHTML)
-    })
-    Array.from(links).forEach(link => {
-      if (link.rel === 'stylesheet') {
-        printWindow.document.write(link.outerHTML)
+    
+    // 复制所有样式表
+    const styleSheets = document.styleSheets
+    Array.from(styleSheets).forEach(styleSheet => {
+      try {
+        if (styleSheet.cssRules) {
+          const cssText = Array.from(styleSheet.cssRules)
+            .map(rule => rule.cssText)
+            .join('\n')
+          printWindow.document.write(`<style>${cssText}</style>`)
+        }
+      } catch (e) {
+        // 对于跨域样式表，直接复制 link 标签
+        if (styleSheet.href) {
+          printWindow.document.write(`<link rel="stylesheet" href="${styleSheet.href}">`)
+        }
       }
     })
-    
+
     // 复制内容
     const content = resumeRef.current.cloneNode(true) as HTMLElement
     content.style.width = '210mm'
