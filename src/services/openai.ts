@@ -94,7 +94,7 @@ class OpenAIService {
 2. 不要返回任何其他文字说明
 3. 使用用户提供的真实信息
 4. 对于未提供的字段使用空字符串或空数组
-5. 确保生成的 JSON 符合以下结构，不要添加任何其他字段：
+5. 确保生成的 JSON 符合以下结构，并且字段类型必须一致，不要添加任何其他字段：
 
 {
   "basicInfo": {
@@ -191,11 +191,58 @@ class OpenAIService {
 
       const data = await response.json();
       const resumeData = JSON.parse(data.choices[0].message.content);
-      return resumeData;
+      return this.fixArrayFields(resumeData);
     } catch (error) {
       console.error('Error generating resume:', error);
       throw error;
     }
+  }
+
+  private fixArrayFields(data: Resume): Resume {
+    // 处理 education 数组
+    data.education = data.education.map(edu => ({
+      ...edu,
+      courses: this.ensureArray(edu.courses),
+      awards: this.ensureArray(edu.awards)
+    }));
+
+    // 处理 experience 数组
+    data.experience = data.experience.map(exp => ({
+      ...exp,
+      description: this.ensureArray(exp.description),
+      technologies: this.ensureArray(exp.technologies)
+    }));
+
+    // 处理 projects 数组
+    data.projects = data.projects.map(proj => ({
+      ...proj,
+      description: this.ensureArray(proj.description),
+      highlights: this.ensureArray(proj.highlights),
+      technologies: this.ensureArray(proj.technologies)
+    }));
+
+    // 处理 skills 数组
+    data.skills = data.skills.map(skill => ({
+      ...skill,
+      items: this.ensureArray(skill.items)
+    }));
+
+    // 处理 additional 字段
+    data.additional = {
+      languages: this.ensureArray(data.additional.languages),
+      certifications: this.ensureArray(data.additional.certifications),
+      talks: this.ensureArray(data.additional.talks),
+      publications: this.ensureArray(data.additional.publications),
+      openSource: this.ensureArray(data.additional.openSource)
+    };
+
+    return data;
+  }
+
+  private ensureArray(value: string | string[] | undefined): string[] {
+    if (!value) return [];
+    if (Array.isArray(value)) return value;
+    return value.split(/[,，]/).map(item => item.trim()).filter(Boolean);
   }
 }
 

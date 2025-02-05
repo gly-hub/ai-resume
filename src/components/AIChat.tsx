@@ -107,10 +107,12 @@ export default function AIChat() {
       console.log('发送消息到 OpenAI:', {
         endpoint: config.apiEndpoint,
         model: config.model,
-        messages: [...messages, userMessage]
+        messages: [...messages, userMessage].map(({ status, isRetrying, ...msg }) => msg)
       });
       
-      const assistantMessage = await openAIService.sendMessage([...messages, userMessage]);
+      const assistantMessage = await openAIService.sendMessage(
+        [...messages, userMessage].map(({ status, isRetrying, ...msg }) => msg)
+      );
       console.log('OpenAI 响应:', assistantMessage);
       
       setMessages(prev => [...prev, { ...assistantMessage, status: 'success' }]);
@@ -211,7 +213,9 @@ export default function AIChat() {
         messagesCount: messages.length
       });
       
-      const resumeData = await openAIService.generateResume(messages);
+      const resumeData = await openAIService.generateResume(
+        messages.map(({ status, isRetrying, ...msg }) => msg)
+      );
       console.log('OpenAI 返回的简历数据:', resumeData);
       
       loadFromAI(resumeData);
