@@ -45,7 +45,7 @@
 
 1. 克隆项目
 ```bash
-git clone https://github.com/yourusername/OpenCurriculumVitae.git
+git clone https://github.com/gly-hub/ai-resume.git
 cd OpenCurriculumVitae
 ```
 
@@ -75,7 +75,7 @@ pnpm dev
 2. 克隆并启动项目
    ```bash
    # 克隆项目
-   git clone https://github.com/yourusername/OpenCurriculumVitae.git
+   git clone https://github.com/gly-hub/ai-resume.git
    
    # 进入项目目录
    cd OpenCurriculumVitae
