@@ -319,7 +319,7 @@ export default function AIChat() {
         borderWidth={1} 
         borderRadius="lg" 
         bg="white" 
-        h="600px"
+        h="calc(100vh - 300px)"
         display="flex"
         flexDirection="column"
       >
@@ -378,16 +378,6 @@ export default function AIChat() {
 
         <Box p={4} borderTopWidth={1} bg="white">
           <VStack spacing={4}>
-            <Button
-              colorScheme="teal"
-              onClick={handleGenerateResume}
-              isDisabled={loading || messages.length < 4 || !configSaved}
-              leftIcon={<ChatIcon />}
-              w="100%"
-            >
-              生成简历
-            </Button>
-
             <Box w="100%">
               <Textarea
                 value={newMessage}
@@ -402,19 +392,35 @@ export default function AIChat() {
                 isDisabled={!configSaved}
                 rows={3}
                 resize="none"
-                mb={2}
+                sx={{
+                  '&:focus': {
+                    boxShadow: 'none',
+                    borderColor: 'blue.500',
+                  }
+                }}
               />
+            </Box>
+
+            <HStack w="100%" spacing={4}>
               <Button
-                onClick={handleSendMessage}
-                isLoading={loading}
-                colorScheme="blue"
-                isDisabled={!configSaved || !newMessage.trim()}
-                w="100%"
+                colorScheme="teal"
+                onClick={handleGenerateResume}
+                isDisabled={loading || messages.length < 4 || !configSaved}
                 leftIcon={<ChatIcon />}
+                flex={1}
+              >
+                生成简历
+              </Button>
+              <Button
+                colorScheme="blue"
+                onClick={handleSendMessage}
+                isDisabled={!configSaved || !newMessage.trim()}
+                isLoading={loading}
+                flex={1}
               >
                 发送
               </Button>
-            </Box>
+            </HStack>
           </VStack>
         </Box>
       </Box>

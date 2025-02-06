@@ -242,7 +242,19 @@ class OpenAIService {
   private ensureArray(value: string | string[] | undefined): string[] {
     if (!value) return [];
     if (Array.isArray(value)) return value;
-    return value.split(/[,，]/).map(item => item.trim()).filter(Boolean);
+    
+    // 检查是否包含 - 或 + 作为分隔符
+    if (value.includes('-') || value.includes('+')) {
+      return value.split(/[-+]/).map(item => item.trim()).filter(Boolean);
+    }
+
+     // 检查是否包含 ； 作为分隔符
+     if (value.includes('；')) {
+      return value.split(/[；]/).map(item => item.trim()).filter(Boolean);
+    }
+    
+    // 否则使用常见分隔符
+    return value.split(/[,，、]/).map(item => item.trim()).filter(Boolean);
   }
 }
 
